@@ -1,12 +1,20 @@
 //selectionne la zone principale
 const main = document.querySelector("main");
 
+const projetsAPI = await fetch("http://localhost:5678/api/works");
+const projets = await projetsAPI.json();
+// Transformation des pièces en JSON
+const valeurprojets = JSON.stringify(projets);
+// Stockage des informations dans le localStorage
+window.localStorage.setItem("projets", valeurprojets);
 
+
+
+console.log(projets);
 
 function genererPageLogin(){
         
     //creation bloc Login
-    
     const loginSection = document.createElement("section");
     loginSection.id = "login";
     
@@ -77,16 +85,41 @@ function genererIntroProjets(){
 };
 
 function genererProjets(){
-    //creation bloc projets
-    const projetTile = document.createElement("figure");
     
-    const projetImages = document.createElement("img");
+    //creation section projets
+    const projetsSection = document.createElement("section");
+    projetsSection.id = "portfolio";
+    
+    const projetsHead = document.createElement("h2");
+    projetsHead.innerText = "Mes Projets";
 
-    const projetCaption = document.createElement("figcaption");
+    const projetsGallery = document.createElement("div");
+    projetsGallery.classList.add("gallery");
 
+    main.appendChild(projetsSection);
+    projetsSection.appendChild(projetsHead);
+    projetsSection.appendChild(projetsGallery);
+    
+    
+    //creation bloc projet
+    function genererTilesProjets(projets) {
+        for (let i=0 ; i<projets.length; i++) { 
+        const projetTile = document.createElement("figure");
+        
+        const projetImage = document.createElement("img");
+        projetImage.src = projets[i].imageUrl;
+        projetImage.setAttribute("alt", projets[i].title);
+        const projetCaption = document.createElement("figcaption");
+        projetCaption.innerText = projets[i].title;
+
+        
+        projetsGallery.appendChild(projetTile);
+        projetTile.appendChild(projetImage);
+        projetTile.appendChild(projetCaption);
+        };
+    };
+    genererTilesProjets(projets);
 };
-
-
 
 //creation bloc formulaire de contact
 function genererFormContact(){
@@ -149,6 +182,7 @@ function genererFormContact(){
 
     };
 genererIntroProjets();
+genererProjets();
 genererFormContact();
 
 const navLogin = document.querySelector("#nav-login");
