@@ -52,6 +52,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	background-color: #FFFEF8;
 }
 header {
 	display: flex;
@@ -95,9 +96,20 @@ nav li {
 	font-size: 1.2em;
 }
 
-li:hover {
+nav li img {
+	width: 50%;
+}
+
+nav li a {
+	text-decoration: none;
+	color: #000;
+	cursor: text;
+}
+
+nav li a:hover,li:hover,#login input[type="mdp-forgot"] {
 	color: #B1663C;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -137,31 +149,37 @@ li:hover {
 	width: 100%;
 
 }
+
 #contact {
 	width: 50%;
 margin: auto;
 }
-#contact > * {
-	text-align: center;
 
+#login {
+	margin: 112px 0 355px 0;
 }
+
+#contact > *,#login > * {
+	text-align: center;
+}
+
 #contact h2{
 	margin-bottom: 20px;
 }
-#contact form {
+#contact form, #login form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input, #login input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact label, #login label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -169,7 +187,7 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+input[type="submit"],input[type="login"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -180,9 +198,36 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+
+
+#login input[type="mdp-forgot"]{
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+	color: #3d3d3d;
+	border: none;
+	text-align: center;
+	box-shadow: none;
+	background-color: transparent;
+	text-decoration: underline;
+	height: auto;
+}
+
+
+
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+.login__container, .login__fields {
+	display: flex;
+	flex-direction: column;
+	width: 380px;
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: content-box;
 }
 
