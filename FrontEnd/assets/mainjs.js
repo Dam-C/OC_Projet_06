@@ -55,28 +55,101 @@ function genererPageLogin(){
 };
 
 
-
-function genererPageProjets(projets){
+function genererIntroProjets(){
 
     
     //creation bloc intro
-    
-    const projetIntroFigure = document.createElement("figure");
-    
-    const projetIntroArticle = document.createElement("article");
-    
-    const projetIntroText = "<h2>Designer d'espace</h2><p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p><p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p><p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>";
+    const projetsIntroSection = document.createElement("section");
+    projetsIntroSection.id = "introduction";
 
-    
+    const projetsIntroFigure = document.createElement("figure");
+    const projetsIntroFigureImg = document.createElement("img");
+    projetsIntroFigureImg.src = "./assets/images/sophie-bluel.png";
+    const projetsIntroArticle = document.createElement("article");
+    const projetsIntroText = "<h2>Designer d'espace</h2><p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p><p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p><p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>";
+    projetsIntroArticle.innerHTML = projetsIntroText;
+
+    main.appendChild(projetsIntroSection);
+    projetsIntroSection.appendChild(projetsIntroFigure);
+    projetsIntroFigure.appendChild(projetsIntroFigureImg);
+    projetsIntroSection.appendChild(projetsIntroArticle);
+
+};
+
+function genererProjets(){
     //creation bloc projets
     const projetTile = document.createElement("figure");
     
     const projetImages = document.createElement("img");
 
     const projetCaption = document.createElement("figcaption");
-    
-    //creation bloc formulaire
+
 };
+
+
+
+//creation bloc formulaire de contact
+function genererFormContact(){
+        
+        //creation bloc contact        
+        const contactSection = document.createElement("section");
+        contactSection.id = "contact";
+                
+        const contactHead = document.createElement("h2");
+        contactHead.innerText = "Contact";
+        
+        const contactText = document.createElement("p");
+        contactText.innerText = "Vous avez un projet ? Discutons-en !";
+
+        const contactForm = document.createElement("form");
+        contactForm.setAttribute("action", "#");
+        contactForm.setAttribute("method", "post");
+          
+        const contactFormLabelName = document.createElement("label");
+        contactFormLabelName.setAttribute("for", "name");
+        contactFormLabelName.innerText = "Nom";
+        const contactFormInputName = document.createElement("input");
+        contactFormInputName.setAttribute("type", "text");
+        contactFormInputName.setAttribute("name", "name");
+        contactFormInputName.id = "name";
+
+        const contactFormLabelEMail = document.createElement("label");
+        contactFormLabelEMail.setAttribute("for", "email");
+        contactFormLabelEMail.innerText = "Email";
+        const contactFormInputEMail = document.createElement("input");
+        contactFormInputEMail.setAttribute("type", "email");
+        contactFormInputEMail.setAttribute("name", "email");
+        contactFormInputEMail.id = "email";
+        
+        const contactFormLabelText = document.createElement("label");
+        contactFormLabelText.setAttribute("for", "message");
+        contactFormLabelText.innerText = "Message";
+        
+        const contactFormText = document.createElement("textarea");
+        contactFormText.setAttribute("name", "message");
+        contactFormText.id = "message";
+        contactFormText.setAttribute("cols", "30");
+        contactFormText.setAttribute("rows", "10");
+        
+        const contactFormSubmit = document.createElement("input");
+        contactFormSubmit.setAttribute("type", "submit");
+        contactFormSubmit.setAttribute("value", "Envoyer");
+    
+        main.appendChild(contactSection);
+        contactSection.appendChild(contactHead);
+        contactSection.appendChild(contactText);
+        contactSection.appendChild(contactForm);
+        contactForm.appendChild(contactFormLabelName);
+        contactForm.appendChild(contactFormInputName);
+        contactForm.appendChild(contactFormLabelEMail);
+        contactForm.appendChild(contactFormInputEMail);
+        contactForm.appendChild(contactFormLabelText);
+        contactForm.appendChild(contactFormText);
+        contactForm.appendChild(contactFormSubmit);
+
+    };
+genererIntroProjets();
+genererFormContact();
 
 const navLogin = document.querySelector("#nav-login");
 navLogin.addEventListener("click", function () {
