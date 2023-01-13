@@ -76,11 +76,10 @@ function genererProjetsHead() {
 
 
 //creation zone des projets
-function genererProjets(){
-
+function genererProjets(projets) {
+    const projetsGallery = document.querySelector(".gallery");
     //creation bloc projet 
         for (let i=0 ; i < projets.length; i++) { 
-        const projetsGallery = document.querySelector(".gallery");
         const projetTile = document.createElement("figure");
         
         const projetImage = document.createElement("img");
@@ -158,12 +157,10 @@ function genererFormContact(){
 
     };
 
-genererIntroProjets();
-genererProjetsHead();
-genererProjets();
-genererFormContact();
-
-
+    genererIntroProjets();
+    genererProjetsHead();
+    genererProjets();
+    genererFormContact();
 
 //Bouttons du site
 
@@ -179,26 +176,45 @@ const navProjets = document.querySelector("#nav-projets");
 navProjets.addEventListener("click", function () {
     main.innerHTML = "";
     genererIntroProjets();
-    genererProjets(projets);
+    genererProjetsHead();
+    genererProjets();
     genererFormContact();
 });
 
 
 const masterFilter = document.querySelector("#master-filter");
 masterFilter.addEventListener("click", function () {
-    const allProjets = projets.filter(function (projet) {
-        return projet.title !== null;
-    });
     document.querySelector(".gallery").innerHTML = "";
-    genererProjets(allProjets);
+    genererProjets(projets);
+    console.log("test0");
 });
 
 const filtreObj = document.querySelector("#filtre-1");
 filtreObj.addEventListener("click", function () {
-    const projetsFiltres = projets.filter(function (projet) {
-        return projet.categorieId == 1;
+    const projetsFiltres = projets.filter(function (projets) {
+        return projets.categorieId == 1;
     });
     document.querySelector(".gallery").innerHTML = "";
     genererProjets(projetsFiltres);
-    console.log("test");
+    console.log("test1");
+});
+
+const filtreAppart = document.querySelector("#filtre-2");
+filtreAppart.addEventListener("click", function () {
+    const projetsFiltres = projets.filter(function (projet) {
+        return projet.categorieId == 2;
+    });
+    document.querySelector(".gallery").innerHTML = "";
+    genererProjets(projetsFiltres);
+    console.log("test2");
+});
+
+const filtreHetR = document.querySelector("#filtre-3");
+filtreHetR.addEventListener("click", function () {
+    const projetsFiltres = projets.filter(function (projet) {
+        return projet.categorieId == 3;
+    });
+    document.querySelector(".gallery").innerHTML = "";
+    genererProjets(projetsFiltres);
+    console.log("test3");
 });
