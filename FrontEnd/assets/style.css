@@ -187,7 +187,7 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"],input[type="login"]{
+input[type="submit"],input[type="login"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -197,8 +197,6 @@ input[type="submit"],input[type="login"]{
 	text-align: center;
 	border-radius: 60px ;
 }
-
-
 
 #login input[type="mdp-forgot"]{
 	font-family: 'Work Sans';
@@ -212,9 +210,6 @@ input[type="submit"],input[type="login"]{
 	text-decoration: underline;
 	height: auto;
 }
-
-
-
 
 footer nav ul {
 	display: flex;
@@ -231,3 +226,36 @@ footer nav ul {
 	box-sizing: content-box;
 }
 
+#filtres-container {
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+}
+
+.filtre-cat {
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 1rem;
+	color: #1D6154;
+	border: 1px solid #1D6154;
+	background-color: transparent;
+	margin-bottom: 50px;
+	min-width: 100px;
+	text-align: center;
+	padding: 8px 10px 8px 10px;
+	border-radius: 60px ;
+}
+
+.filtre-cat-selected {
+	color: #fff;
+	border: 1px solid #1D6154;
+	background-color: 1D6154;
+}
+
+.filtre-cat:hover {
+	color: #fff;
+	border: 1px solid #0E2F28;
+	background-color: #0E2F28;
+}
