@@ -77,22 +77,30 @@ function genererProjetsHead() {
 
 //creation zone des projets
 function genererProjets(projets) {
-    const projetsGallery = document.querySelector(".gallery");
+
     //creation bloc projet 
         for (let i=0 ; i < projets.length; i++) { 
+        
+        const projetsGallery = document.querySelector(".gallery");
+
+        const projet = projets[i];
+
         const projetTile = document.createElement("figure");
+        projetTile.dataset.id = projets[i].id;
+        projetTile.dataset.cat = projets[i].categoryId;
         
         const projetImage = document.createElement("img");
-        projetImage.src = projets[i].imageUrl;
-        projetImage.setAttribute("alt", projets[i].title);
+        projetImage.src = projet.imageUrl;
+        projetImage.setAttribute("alt", projet.title);
         projetImage.setAttribute("crossorigin", "anonymous");
 
         const projetCaption = document.createElement("figcaption");
-        projetCaption.innerText = projets[i].title;
+        projetCaption.innerText = projet.title;
 
         projetsGallery.appendChild(projetTile);
         projetTile.appendChild(projetImage);
         projetTile.appendChild(projetCaption);
+
     };
 };
 
@@ -159,62 +167,64 @@ function genererFormContact(){
 
     genererIntroProjets();
     genererProjetsHead();
-    genererProjets();
+    genererProjets(projets);
     genererFormContact();
 
 //Bouttons du site
 
-let projetFiltrees = "test";
-
-const navLogin = document.querySelector("#nav-login");
-navLogin.addEventListener("click", function () {
-    main.innerHTML = "";
-    genererPageLogin();
-});
-
-const navProjets = document.querySelector("#nav-projets");
-navProjets.addEventListener("click", function () {
-    main.innerHTML = "";
-    genererIntroProjets();
-    genererProjetsHead();
-    genererProjets();
-    genererFormContact();
-});
-
-
 const masterFilter = document.querySelector("#master-filter");
-masterFilter.addEventListener("click", function () {
+masterFilter.addEventListener("click", function (event) {
+    event.preventDefault();
     document.querySelector(".gallery").innerHTML = "";
     genererProjets(projets);
-    console.log("test0");
+    console.log(projets);
 });
 
 const filtreObj = document.querySelector("#filtre-1");
 filtreObj.addEventListener("click", function () {
-    const projetsFiltres = projets.filter(function (projets) {
-        return projets.categorieId == 1;
+    const projetsFiltres = projets.filter(function (projet) {
+        return projet.category.id == 1;
     });
     document.querySelector(".gallery").innerHTML = "";
     genererProjets(projetsFiltres);
-    console.log("test1");
+    console.log(projetsFiltres);
 });
 
 const filtreAppart = document.querySelector("#filtre-2");
 filtreAppart.addEventListener("click", function () {
     const projetsFiltres = projets.filter(function (projet) {
-        return projet.categorieId == 2;
+        return projet.category.id == 2;
     });
     document.querySelector(".gallery").innerHTML = "";
     genererProjets(projetsFiltres);
-    console.log("test2");
+    console.log(projetsFiltres);
 });
 
 const filtreHetR = document.querySelector("#filtre-3");
 filtreHetR.addEventListener("click", function () {
     const projetsFiltres = projets.filter(function (projet) {
-        return projet.categorieId == 3;
+        return projet.category.id == 3;
     });
     document.querySelector(".gallery").innerHTML = "";
     genererProjets(projetsFiltres);
-    console.log("test3");
+    console.log(projetsFiltres);
 });
+
+const navLogin = document.querySelector("#nav-login");
+navLogin.addEventListener("click", function (event) {
+    event.preventDefault();
+    main.innerHTML = "";
+    genererPageLogin();
+});
+
+const navProjets = document.querySelector("#nav-projets");
+navProjets.addEventListener("click", function (event) {
+    event.preventDefault();
+    main.innerHTML = "";
+    genererIntroProjets();
+    genererProjetsHead();
+    genererProjets(projets);
+    genererFormContact();
+});
+
+
