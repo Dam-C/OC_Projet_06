@@ -7,13 +7,47 @@ export function generatePageLogin(){
     const loginSection = document.createElement("section");
     loginSection.id = "login";
 
-    const loginHTML = `<article class="login__container"><h2>Log In</h2><form class="login__fields"><label for="email-login">E-mail</label><input type="email" onChange={this.handleEmailInput} name="email-login" id="email-login"><label for="mdp-login">Mot de passe</label><input type="password" onChange={this.handlePassInput}  name="mdp-login" id="mdp-login"><button type="button" id="btn-login" onClick={this.clickLogin}  value="Se connecter">Se connecter</button><input type="mdp-forgot" value="Mot de passe oublié"></form></article>`;
+    const loginHTML = `<article class="login__container"><h2>Log In</h2><form class="login__fields"><label for="email-login">E-mail</label><input type="email" name="email-login" id="email-login"><label for="mdp-login">Mot de passe</label><input type="password" name="mdp-login" id="mdp-login"><button type="button" id="btn-login" value="Se connecter">Se connecter</button><input type="mdp-forgot" value="Mot de passe oublié"></form></article>`;
     
     loginSection.innerHTML = loginHTML;
     main.appendChild(loginSection);
     
+    const loginBtn = document.querySelector("#btn-login")
+    .addEventListener("click", async function () {
 
+        const loginMail = document.querySelector("#email-login").value;
+        const loginPass = document.querySelector("#mdp-login").value;
 
+        const loginIDS = {
+            email: loginMail,
+            password: loginPass
+        };
+
+        const loginReqIDS = JSON.stringify(loginIDS);
+
+        console.log(loginReqIDS); //ok jusque là
+
+        const r = fetch("http://localhost:5678/api/users/login", {
+            method : "POST",
+            headers : {
+                "Accept" : "application/json",
+                "Content-type" : "application/json"
+            },
+            body: loginReqIDS
+
+        })
+
+        console.log(r);
+        
+        if (r.ok === true) {
+            return r.json();
+        }
+        throw new Error("Ca marche pas frère !")
+
+    });
+      
+};
+    
     /*
     const loginArticle = document.createElement("article");
     loginArticle.classList.add("login__container");
@@ -57,16 +91,18 @@ export function generatePageLogin(){
     loginForm.appendChild(inputMDP)
     loginForm.appendChild(inputSubmit)
     */
-};
 
 
 
+
+/*
 export function clickLogin (e){
     e.preventDefault();
     fetch ("http://localhost:5678/api/users/login", {
        method: "POST",
        body: JSON.stringify({
          email: this.state.idValue,
+         headers: { "Content-Type": "application/json" },
          password: this.state.pwValue
       }),
   })
@@ -83,24 +119,4 @@ export function clickLogin (e){
     });
     console.log("test");
   }
-
-
-  /*  
-    const loginForm = document.querySelector(".login__fields");
-    loginForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        
-        const loginValues = {
-            email : e.target.querySelector("[name=email-login]").value,
-            password : e.target.querySelector("[name=mdp-login]").value
-        };
-
-        const chargeUtile = JSON.stringify(loginValues);
-
-        fetch("http://localhost:5678/api/users/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: chargeUtile
-        });
-    });
 */

@@ -1,4 +1,4 @@
-import { generatePageLogin, clickLogin} from "./login.js";
+import { generatePageLogin} from "./login.js";
 
 //selectionne la zone principale
 
