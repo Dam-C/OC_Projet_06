@@ -1,4 +1,4 @@
-import { genererPageLogin} from "./login.js";
+import { generatePageLogin, clickLogin} from "./login.js";
 
 //selectionne la zone principale
 
@@ -7,10 +7,10 @@ const categories = await categoriesAPI.json();
 
 const projetsAPI = await fetch("http://localhost:5678/api/works");
 const projets = await projetsAPI.json();
- 
 
 console.log(projets);
 console.log(categories);
+
 
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
@@ -37,6 +37,7 @@ function genererIntroProjets(){
 
 };
 
+//Creation de la zone filtres des projets
 function genererProjetsHead() {
     //creation section projets
     const projetsSection = document.createElement("section");
@@ -72,10 +73,47 @@ function genererProjetsHead() {
     projetsFiltresDiv.appendChild(filtresButtTous);
     filtresCategories(categories);
     projetsSection.appendChild(projetsGallery);
+
+
+    //génération des boutons de filtres
+    const masterFilter = document.querySelector("#master-filter");
+    masterFilter.addEventListener("click", function (event) {
+        event.preventDefault();
+        document.querySelector(".gallery").innerHTML = "";
+        genererProjets(projets);
+        console.log(projets);
+    });
+
+    const filtreObj = document.querySelector("#filtre-1");
+    filtreObj.addEventListener("click", function () {
+        const projetsFiltres = projets.filter(function (projet) {
+            return projet.category.id == 1;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        genererProjets(projetsFiltres);
+        console.log(projetsFiltres);
+    });
+
+    const filtreAppart = document.querySelector("#filtre-2");
+    filtreAppart.addEventListener("click", function () {
+        const projetsFiltres = projets.filter(projet => projet.category.id == 2);
+        document.querySelector(".gallery").innerHTML = "";
+        genererProjets(projetsFiltres);
+        console.log(projetsFiltres);
+    });
+
+    const filtreHetR = document.querySelector("#filtre-3");
+    filtreHetR.addEventListener("click", function () {
+        const projetsFiltres = projets.filter(function (projet) {
+            return projet.category.id == 3;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        genererProjets(projetsFiltres);
+        console.log(projetsFiltres);
+    });
 };
 
-
-//creation zone des projets
+//Creation zone des projets
 function genererProjets(projets) {
 
     //creation bloc projet 
@@ -104,23 +142,29 @@ function genererProjets(projets) {
     };
 };
 
-//creation bloc formulaire de contact
+//Creation bloc formulaire de contact
 function genererFormContact(){
         
         //creation bloc contact        
         const contactSection = document.createElement("section");
         contactSection.id = "contact";
-                
+
+        const contactTextBloc = `<h2>Contact</h2><p>Vous avez un projet ? Discutons-en !</p><form action="#" method="post"><label for="name">Nom</label><input type="text" name="name" id="name"><label for="email">Email</label><input type="email" name="email" id="email"><label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea><input type="submit" value="Envoyer"></form></section>`;
+
+        contactSection.innerHTML = contactTextBloc;
+        main.appendChild(contactSection);
+
+        /*
         const contactHead = document.createElement("h2");
         contactHead.innerText = "Contact";
-        
+
         const contactText = document.createElement("p");
         contactText.innerText = "Vous avez un projet ? Discutons-en !";
 
         const contactForm = document.createElement("form");
         contactForm.setAttribute("action", "#");
         contactForm.setAttribute("method", "post");
-          
+
         const contactFormLabelName = document.createElement("label");
         contactFormLabelName.setAttribute("for", "name");
         contactFormLabelName.innerText = "Nom";
@@ -151,7 +195,7 @@ function genererFormContact(){
         contactFormSubmit.setAttribute("type", "submit");
         contactFormSubmit.setAttribute("value", "Envoyer");
     
-        main.appendChild(contactSection);
+
         contactSection.appendChild(contactHead);
         contactSection.appendChild(contactText);
         contactSection.appendChild(contactForm);
@@ -162,7 +206,7 @@ function genererFormContact(){
         contactForm.appendChild(contactFormLabelText);
         contactForm.appendChild(contactFormText);
         contactForm.appendChild(contactFormSubmit);
-
+        */
     };
 
     genererIntroProjets();
@@ -171,50 +215,18 @@ function genererFormContact(){
     genererFormContact();
 
 //Bouttons du site
-
-const masterFilter = document.querySelector("#master-filter");
-masterFilter.addEventListener("click", function (event) {
-    event.preventDefault();
-    document.querySelector(".gallery").innerHTML = "";
-    genererProjets(projets);
-    console.log(projets);
-});
-
-const filtreObj = document.querySelector("#filtre-1");
-filtreObj.addEventListener("click", function () {
-    const projetsFiltres = projets.filter(function (projet) {
-        return projet.category.id == 1;
-    });
-    document.querySelector(".gallery").innerHTML = "";
-    genererProjets(projetsFiltres);
-    console.log(projetsFiltres);
-});
-
-const filtreAppart = document.querySelector("#filtre-2");
-filtreAppart.addEventListener("click", function () {
-    const projetsFiltres = projets.filter(function (projet) {
-        return projet.category.id == 2;
-    });
-    document.querySelector(".gallery").innerHTML = "";
-    genererProjets(projetsFiltres);
-    console.log(projetsFiltres);
-});
-
-const filtreHetR = document.querySelector("#filtre-3");
-filtreHetR.addEventListener("click", function () {
-    const projetsFiltres = projets.filter(function (projet) {
-        return projet.category.id == 3;
-    });
-    document.querySelector(".gallery").innerHTML = "";
-    genererProjets(projetsFiltres);
-    console.log(projetsFiltres);
-});
-
 const navLogin = document.querySelector("#nav-login");
 navLogin.addEventListener("click", function (event) {
     event.preventDefault();
     main.innerHTML = "";
-    genererPageLogin();
+    generatePageLogin();
+});
+
+const navContact = document.querySelector("#nav-contact");
+navContact.addEventListener("click", function (event) {
+    event.preventDefault();
+    main.innerHTML = "";
+    genererFormContact();
 });
 
 const navProjets = document.querySelector("#nav-projets");
@@ -227,4 +239,7 @@ navProjets.addEventListener("click", function (event) {
     genererFormContact();
 });
 
+function callModale () {
+
+}
 
