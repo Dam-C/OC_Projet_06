@@ -1,54 +1,49 @@
-import { generatePageLogin} from "./login.js";
-
-//selectionne la zone principale
-
+//Vidage du localeStorage pour les besoins de la construction du site
+localStorage.clear();
+// Fichiers de l'API
 const categoriesAPI = await fetch("http://localhost:5678/api/categories");
 const categories = await categoriesAPI.json();
-
-const projetsAPI = await fetch("http://localhost:5678/api/works");
-const projets = await projetsAPI.json();
-
-console.log(projets);
-console.log(categories);
-
+const projectsAPI = await fetch("http://localhost:5678/api/works");
+const projects = await projectsAPI.json();
 
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
 
 //creation Partie introduction
-function genererIntroProjets(){
+function generateIntroprojects(){
 
-    
     //creation bloc intro
-    const projetsIntroSection = document.createElement("section");
-    projetsIntroSection.id = "introduction";
+    const projectsIntroSection = document.createElement("section");
+    projectsIntroSection.id = "introduction";
 
-    const projetsIntroFigure = document.createElement("figure");
-    const projetsIntroFigureImg = document.createElement("img");
-    projetsIntroFigureImg.src = "./assets/images/sophie-bluel.png";
-    const projetsIntroArticle = document.createElement("article");
-    const projetsIntroText = "<h2>Designer d'espace</h2><p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p><p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p><p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>";
-    projetsIntroArticle.innerHTML = projetsIntroText;
+    const projectsIntroFigure = document.createElement("figure");
+    projectsIntroFigure.id = "intro-figure"
+    const projectsIntroFigureImg = document.createElement("img");
+    projectsIntroFigureImg.src = "./assets/images/sophie-bluel.png";
+    const projectsIntroArticle = document.createElement("article");
+    projectsIntroArticle.id = "intro-article"
+    const projectsIntroText = "<h2>Designer d'espace</h2><p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p><p>Chaque project sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p><p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>";
+    projectsIntroArticle.innerHTML = projectsIntroText;
 
-    main.appendChild(projetsIntroSection);
-    projetsIntroSection.appendChild(projetsIntroFigure);
-    projetsIntroFigure.appendChild(projetsIntroFigureImg);
-    projetsIntroSection.appendChild(projetsIntroArticle);
-
+    main.appendChild(projectsIntroSection);
+    projectsIntroSection.appendChild(projectsIntroFigure);
+    projectsIntroFigure.appendChild(projectsIntroFigureImg);
+    projectsIntroSection.appendChild(projectsIntroArticle);
+  //  }
 };
 
-//Creation de la zone filtres des projets
-function genererProjetsHead() {
-    //creation section projets
-    const projetsSection = document.createElement("section");
-    projetsSection.id = "portfolio";
+//Creation de la zone filtres des projects
+function generateprojectsHead() {
+    //creation section projects
+    const projectsSection = document.createElement("section");
+    projectsSection.id = "portfolio";
     
-    const projetsHead = document.createElement("h2");
-    projetsHead.innerText = "Mes Projets";
+    const projectsHead = document.createElement("h2");
+    projectsHead.innerText = "Mes projects";
 
-    //creation filtres projets    
-    const projetsFiltresDiv = document.createElement("div");
-    projetsFiltresDiv.id = "filtres-container"
+    //creation filtres projects    
+    const projectsFiltresDiv = document.createElement("div");
+    projectsFiltresDiv.id = "filtres-container"
     const filtresButtTous = document.createElement("button");
     filtresButtTous.id = "master-filter";
     filtresButtTous.classList.add("filtre-cat");
@@ -60,19 +55,19 @@ function genererProjetsHead() {
             filtreCat.id = `filtre-${categories[i].id}`;
             filtreCat.classList.add("filtre-cat");
             filtreCat.innerText = categories[i].name;
-            projetsFiltresDiv.appendChild(filtreCat);
+            projectsFiltresDiv.appendChild(filtreCat);
         };
     };
 
-    const projetsGallery = document.createElement("div");
-    projetsGallery.classList.add("gallery");
+    const projectsGallery = document.createElement("div");
+    projectsGallery.classList.add("gallery");
 
-    main.appendChild(projetsSection);
-    projetsSection.appendChild(projetsHead);
-    projetsSection.appendChild(projetsFiltresDiv);
-    projetsFiltresDiv.appendChild(filtresButtTous);
+    main.appendChild(projectsSection);
+    projectsSection.appendChild(projectsHead);
+    projectsSection.appendChild(projectsFiltresDiv);
+    projectsFiltresDiv.appendChild(filtresButtTous);
     filtresCategories(categories);
-    projetsSection.appendChild(projetsGallery);
+    projectsSection.appendChild(projectsGallery);
 
 
     //génération des boutons de filtres
@@ -80,166 +75,214 @@ function genererProjetsHead() {
     masterFilter.addEventListener("click", function (event) {
         event.preventDefault();
         document.querySelector(".gallery").innerHTML = "";
-        genererProjets(projets);
-        console.log(projets);
+        generateprojects(projects);
+        console.log(projects);
     });
 
     const filtreObj = document.querySelector("#filtre-1");
     filtreObj.addEventListener("click", function () {
-        const projetsFiltres = projets.filter(function (projet) {
-            return projet.category.id == 1;
+        const projectsFiltres = projects.filter(function (project) {
+            return project.category.id == 1;
         });
         document.querySelector(".gallery").innerHTML = "";
-        genererProjets(projetsFiltres);
-        console.log(projetsFiltres);
+        generateprojects(projectsFiltres);
+        console.log(projectsFiltres);
     });
 
     const filtreAppart = document.querySelector("#filtre-2");
     filtreAppart.addEventListener("click", function () {
-        const projetsFiltres = projets.filter(projet => projet.category.id == 2);
+        const projectsFiltres = projects.filter(project => project.category.id == 2);
         document.querySelector(".gallery").innerHTML = "";
-        genererProjets(projetsFiltres);
-        console.log(projetsFiltres);
+        generateprojects(projectsFiltres);
+        console.log(projectsFiltres);
     });
 
     const filtreHetR = document.querySelector("#filtre-3");
     filtreHetR.addEventListener("click", function () {
-        const projetsFiltres = projets.filter(function (projet) {
-            return projet.category.id == 3;
+        const projectsFiltres = projects.filter(function (project) {
+            return project.category.id == 3;
         });
         document.querySelector(".gallery").innerHTML = "";
-        genererProjets(projetsFiltres);
-        console.log(projetsFiltres);
+        generateprojects(projectsFiltres);
+        console.log(projectsFiltres);
     });
 };
 
-//Creation zone des projets
-function genererProjets(projets) {
+//Creation zone des projects
+function generateprojects(projects) {
 
-    //creation bloc projet 
-        for (let i=0 ; i < projets.length; i++) { 
+    //creation bloc project 
+        for (let i=0 ; i < projects.length; i++) { 
         
-        const projetsGallery = document.querySelector(".gallery");
+        const projectsGallery = document.querySelector(".gallery");
 
-        const projet = projets[i];
+        const project = projects[i];
 
-        const projetTile = document.createElement("figure");
-        projetTile.dataset.id = projets[i].id;
-        projetTile.dataset.cat = projets[i].categoryId;
+        const projectTile = document.createElement("figure");
+        projectTile.dataset.id = projects[i].id;
+        projectTile.dataset.cat = projects[i].categoryId;
         
-        const projetImage = document.createElement("img");
-        projetImage.src = projet.imageUrl;
-        projetImage.setAttribute("alt", projet.title);
-        projetImage.setAttribute("crossorigin", "anonymous");
+        const projectImage = document.createElement("img");
+        projectImage.src = project.imageUrl;
+        projectImage.setAttribute("alt", project.title);
+        projectImage.setAttribute("crossorigin", "anonymous");
 
-        const projetCaption = document.createElement("figcaption");
-        projetCaption.innerText = projet.title;
+        const projectCaption = document.createElement("figcaption");
+        projectCaption.innerText = project.title;
 
-        projetsGallery.appendChild(projetTile);
-        projetTile.appendChild(projetImage);
-        projetTile.appendChild(projetCaption);
+        projectsGallery.appendChild(projectTile);
+        projectTile.appendChild(projectImage);
+        projectTile.appendChild(projectCaption);
 
     };
 };
 
 //Creation bloc formulaire de contact
-function genererFormContact(){
+function generateFormContact(){
         
         //creation bloc contact        
         const contactSection = document.createElement("section");
         contactSection.id = "contact";
 
-        const contactTextBloc = `<h2>Contact</h2><p>Vous avez un projet ? Discutons-en !</p><form action="#" method="post"><label for="name">Nom</label><input type="text" name="name" id="name"><label for="email">Email</label><input type="email" name="email" id="email"><label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea><input type="submit" value="Envoyer"></form></section>`;
+        const contactTextBloc = `<h2>Contact</h2><p>Vous avez un project ? Discutons-en !</p><form action="#" method="post"><label for="name">Nom</label><input type="text" name="name" id="name"><label for="email">Email</label><input type="email" name="email" id="email"><label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea><input type="submit" value="Envoyer"></form></section>`;
 
         contactSection.innerHTML = contactTextBloc;
         main.appendChild(contactSection);
 
-        /*
-        const contactHead = document.createElement("h2");
-        contactHead.innerText = "Contact";
-
-        const contactText = document.createElement("p");
-        contactText.innerText = "Vous avez un projet ? Discutons-en !";
-
-        const contactForm = document.createElement("form");
-        contactForm.setAttribute("action", "#");
-        contactForm.setAttribute("method", "post");
-
-        const contactFormLabelName = document.createElement("label");
-        contactFormLabelName.setAttribute("for", "name");
-        contactFormLabelName.innerText = "Nom";
-        const contactFormInputName = document.createElement("input");
-        contactFormInputName.setAttribute("type", "text");
-        contactFormInputName.setAttribute("name", "name");
-        contactFormInputName.id = "name";
-
-        const contactFormLabelEMail = document.createElement("label");
-        contactFormLabelEMail.setAttribute("for", "email");
-        contactFormLabelEMail.innerText = "Email";
-        const contactFormInputEMail = document.createElement("input");
-        contactFormInputEMail.setAttribute("type", "email");
-        contactFormInputEMail.setAttribute("name", "email");
-        contactFormInputEMail.id = "email";
-        
-        const contactFormLabelText = document.createElement("label");
-        contactFormLabelText.setAttribute("for", "message");
-        contactFormLabelText.innerText = "Message";
-        
-        const contactFormText = document.createElement("textarea");
-        contactFormText.setAttribute("name", "message");
-        contactFormText.id = "message";
-        contactFormText.setAttribute("cols", "30");
-        contactFormText.setAttribute("rows", "10");
-        
-        const contactFormSubmit = document.createElement("input");
-        contactFormSubmit.setAttribute("type", "submit");
-        contactFormSubmit.setAttribute("value", "Envoyer");
-    
-
-        contactSection.appendChild(contactHead);
-        contactSection.appendChild(contactText);
-        contactSection.appendChild(contactForm);
-        contactForm.appendChild(contactFormLabelName);
-        contactForm.appendChild(contactFormInputName);
-        contactForm.appendChild(contactFormLabelEMail);
-        contactForm.appendChild(contactFormInputEMail);
-        contactForm.appendChild(contactFormLabelText);
-        contactForm.appendChild(contactFormText);
-        contactForm.appendChild(contactFormSubmit);
-        */
     };
 
-    genererIntroProjets();
-    genererProjetsHead();
-    genererProjets(projets);
-    genererFormContact();
+
+// Generation de la page principale
+    generateIntroprojects();
+    generateprojectsHead();
+    generateprojects(projects);
+    generateFormContact();
 
 //Bouttons du site
 const navLogin = document.querySelector("#nav-login");
 navLogin.addEventListener("click", function (event) {
     event.preventDefault();
-    main.innerHTML = "";
-    generatePageLogin();
+    if(localStorage.tokenID) {
+        localStorage.clear();
+        const loginLogout = document.querySelector("#nav-login");
+        loginLogout.innerText = "Login";
+        document.querySelector("#top-edit-mode-container").remove();
+        document.querySelector("#modif-figure").remove();
+        document.querySelector("#modif-intro").remove();
+        document.querySelector("#modif-portfolio").remove();
+    } else {
+        main.innerHTML = "";
+        generatePageLogin();
+        }
 });
 
 const navContact = document.querySelector("#nav-contact");
 navContact.addEventListener("click", function (event) {
     event.preventDefault();
     main.innerHTML = "";
-    genererFormContact();
+    generateFormContact();
 });
 
-const navProjets = document.querySelector("#nav-projets");
-navProjets.addEventListener("click", function (event) {
+const navprojects = document.querySelector("#nav-projets");
+navprojects.addEventListener("click", function (event) {
     event.preventDefault();
+    if (localStorage.tokenID) {
+        generateEditionMode();
+    } else {
     main.innerHTML = "";
-    genererIntroProjets();
-    genererProjetsHead();
-    genererProjets(projets);
-    genererFormContact();
+    generateIntroprojects();
+    generateprojectsHead();
+    generateprojects(projects);
+    generateFormContact();
+    }
 });
+
+
+
 
 function callModale () {
 
 }
 
+function generatePageLogin(){
+        
+    //creation bloc Login
+    const loginSection = document.createElement("section");
+    loginSection.id = "login";
+
+    const loginHTML = `<article class="login__container"><h2>Log In</h2><form class="login__fields"><label for="email-login">E-mail</label><input type="email" name="email-login" id="email-login"><label for="mdp-login">Mot de passe</label><input type="password" name="mdp-login" id="mdp-login"><button type="button" id="btn-login" value="Se connecter">Se connecter</button><input type="mdp-forgot" value="Mot de passe oublié"></form></article>`;
+    
+    loginSection.innerHTML = loginHTML;
+    main.appendChild(loginSection);
+    
+    const loginBtn = document.querySelector("#btn-login")
+        .addEventListener("click", async function () {
+
+        const loginMail = document.querySelector("#email-login").value;
+        const loginPass = document.querySelector("#mdp-login").value;
+
+        const loginIDS = {
+            email: loginMail,
+            password: loginPass,
+        };
+
+        const loginReqIDS = JSON.stringify(loginIDS);
+
+        const r = await fetch("http://localhost:5678/api/users/login", {
+            method : "POST",
+            headers : {
+                "Accept" : "application/json",
+                "Content-type" : "application/json"
+            },
+            body: loginReqIDS
+        })
+
+        const token = await r.json();
+        console.log(token);
+         if (r.ok === true) {
+            alert("Connexion réussie");
+            const body = document.querySelector("body");
+            const headerEM = document.createElement("div");
+            headerEM.id = "top-edit-mode-container";
+            headerEM.innerHTML = `<div id="top-edit-mode"><i class="fa-regular fa-pen-to-square"></i> Mode édition<button>publier les changements</button></div>`;
+
+    body.prepend(headerEM);
+            localStorage.setItem("tokenID", token.token);
+            generateEditionMode();
+        } else {
+            alert("Erreur dans l’identifiant ou le mot de passe");
+        }
+    });
+};
+
+function generateEditionMode () {
+
+    main.innerHTML = "";
+    generateIntroprojects();
+    generateprojectsHead();
+    generateprojects(projects);
+    generateFormContact();
+
+    // EM = Edition Mode
+    // Génère les élements associés à l'édition du site
+    const loginLogout = document.querySelector("#nav-login");
+    loginLogout.innerText = "Logout";
+    const introFigureEM = document.querySelector("#intro-figure");
+    const introArticleEM = document.querySelector("#introduction article");
+    const projectsEM = document.querySelector("#portfolio h2");
+
+    const modifFigure = document.createElement("p");
+    modifFigure.id = "modif-figure";
+    modifFigure.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>modifier`
+    const modifIntro = document.createElement("p");
+    modifIntro.id = "modif-intro";
+    modifIntro.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>modifier`
+    const modifPortfolio = document.createElement("p");
+    modifPortfolio.id = "modif-portfolio";
+    modifPortfolio.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>modifier`
+
+    introFigureEM.appendChild(modifFigure);
+    introArticleEM.prepend(modifIntro);
+    projectsEM.prepend(modifPortfolio);
+
+}

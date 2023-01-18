@@ -272,3 +272,56 @@ footer nav ul {
 	border: 1px solid #0E2F28;
 	background-color: #0E2F28;
 }
+
+
+#top-edit-mode-container {
+	height: 30px;
+}
+
+#top-edit-mode {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #000;
+	color: #fff;
+	width: 100%;
+	height: 59px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#top-edit-mode button {
+	border-radius: 20px;
+	color: #000;
+	background-color: #fff;
+	padding: 10px 30px 10px 30px;
+	font-size: 14px;
+	font-weight: 500;
+	margin-left: 20px;
+}
+
+#modif-figure, #modif-intro, #modif-portfolio {
+	color: #000;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+#modif-figure i, #modif-intro i, #modif-portfolio i {
+margin-right: 12px;
+} 
+
+#modif-figure {
+	margin: 19px 0 0 57px;
+}
+
+#modif-intro {
+margin: 0;
+margin-top: -50px;	
+}
+
+#modif-portfolio {
+	position: absolute;
+	right: 33%;
+	margin-top: 10px
+;}
