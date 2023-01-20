@@ -39,7 +39,7 @@ function generateprojectsHead() {
     projectsSection.id = "portfolio";
     
     const projectsHead = document.createElement("h2");
-    projectsHead.innerText = "Mes projects";
+    projectsHead.innerText = "Mes projets";
 
     //creation filtres projects    
     const projectsFiltresDiv = document.createElement("div");
@@ -310,7 +310,7 @@ function generateEditionMode () {
         
             };
         };
-        
+
         generateModaleProjects(projects);
 
         const backToModale1 = "" ;
