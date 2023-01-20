@@ -147,7 +147,7 @@ nav li a:hover,li:hover,#login input[type="mdp-forgot"] {
 
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
 
 #login {
@@ -197,6 +197,7 @@ input[type="submit"] {
 #btn-login {
 	cursor: pointer;
 	font-family: 'Syne';
+	font-size: 14px;
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
@@ -308,7 +309,7 @@ footer nav ul {
 }
 
 #modif-figure i, #modif-intro i, #modif-portfolio i {
-margin-right: 12px;
+margin-right: 8px;
 } 
 
 #modif-figure {
@@ -321,7 +322,161 @@ margin-top: -50px;
 }
 
 #modif-portfolio {
+	display: block;
+	cursor: pointer;
 	position: absolute;
-	right: 33%;
-	margin-top: 10px
-;}
+	text-align: center;
+	left: 50%;
+	margin-left: 130px;
+	margin-top: 10px;
+}
+
+#modale-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, .5);
+	width: 100%;
+	height: 100%;
+	z-index: 500;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#modale-window {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	padding: 32px 36px 48px 36px;
+	background-color: #fff;
+	width: 630px;
+	opacity: 1;
+	border-radius: 10px;
+}
+
+#closingX {
+	text-align: right;
+	margin-bottom: 16px;
+	cursor: pointer;
+}
+#modale-title {
+	text-align: center;
+	font-size: 26px;
+	font-weight: 400;
+	margin-bottom: 46px;
+}
+
+#miniatures {
+	width: 420px;
+	margin-bottom: 48px;
+	margin-left: auto;
+	margin-right: auto;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 15px;
+}
+
+.modale-separator {
+	width: 420px;
+	height: 1px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #B3B3B3;
+	margin-bottom: 38px;
+}
+
+#modale-btn {
+	cursor: pointer;
+	font-family: 'Syne';
+	font-size: 14px;
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 25px;
+	padding: 10px 50px 10px 50px;
+	text-align: center;
+	border-radius: 60px ;
+	border: none;
+}
+
+#modale-suppr {
+	text-align: center;
+	color: #D65353;
+	font-family: 'Syne';
+	font-size: 14px;
+	font-weight: 400;
+	font-style: normal;
+	cursor: pointer;
+}
+
+.miniature {
+	width: 76px;
+	height: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	overflow:hidden ;
+}
+
+.miniature-fig {
+	height: 102px;
+	ooverflow: hidden;
+	object-fit: contain;
+	object-position: center;
+}
+
+.miniature-fig img {
+	height: 100%;
+	z-index: -1;
+}
+
+.miniature p {
+	vertical-align: bottom;
+}
+
+.fa-trash-can {
+	z-index: 550;
+	cursor: pointer;
+	position: relative;
+	top: -100px;
+	left: 38px;
+	color: #fff;
+	background-color: #000;
+	padding: 4px;
+	font-size: .65em;
+	border-radius: 2px;
+}
+
+.fa-arrows-up-down-left-right {
+	z-index: 555;
+	opacity: 0;
+	position: relative;
+	top: -100px;
+	left: 35px;
+	color: #fff;
+	background-color: #000;
+	padding: 4px;
+	font-size: .65em;
+	border-radius: 2px;
+}
+
+.miniature:hover .fa-arrows-up-down-left-right {
+	opacity: 1;
+}
+
+/*
+
+<div id="miniature-1" class="miniature">
+        <figure id="modale-mini-fig-1" class="miniature-fig">
+            <img src="">
+            <i class="fa-solid fa-arrows-up-down-left-right"></i>
+            <i class="fa-solid fa-trash-can"></i>  
+        </figure>
+    <p>éditer</p>
+    </div>
+
+*/
+

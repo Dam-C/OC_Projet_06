@@ -144,9 +144,7 @@ function generateFormContact(){
         const contactSection = document.createElement("section");
         contactSection.id = "contact";
 
-        const contactTextBloc = `<h2>Contact</h2><p>Vous avez un project ? Discutons-en !</p><form action="#" method="post"><label for="name">Nom</label><input type="text" name="name" id="name"><label for="email">Email</label><input type="email" name="email" id="email"><label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea><input type="submit" value="Envoyer"></form></section>`;
-
-        contactSection.innerHTML = contactTextBloc;
+        contactSection.innerHTML = `<h2>Contact</h2><p>Vous avez un project ? Discutons-en !</p><form action="#" method="post"><label for="name">Nom</label><input type="text" name="name" id="name"><label for="email">Email</label><input type="email" name="email" id="email"><label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea><input type="submit" value="Envoyer"></form></section>`;
         main.appendChild(contactSection);
 
     };
@@ -200,9 +198,7 @@ navprojects.addEventListener("click", function (event) {
 
 
 
-function callModale () {
 
-}
 
 function generatePageLogin(){
         
@@ -269,7 +265,7 @@ function generateEditionMode () {
     loginLogout.innerText = "Logout";
     const introFigureEM = document.querySelector("#intro-figure");
     const introArticleEM = document.querySelector("#introduction article");
-    const projectsEM = document.querySelector("#portfolio h2");
+    const projectsEM = document.querySelector("#portfolio");
 
     const modifFigure = document.createElement("p");
     modifFigure.id = "modif-figure";
@@ -277,12 +273,47 @@ function generateEditionMode () {
     const modifIntro = document.createElement("p");
     modifIntro.id = "modif-intro";
     modifIntro.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>modifier`
-    const modifPortfolio = document.createElement("p");
+    const modifPortfolio = document.createElement("div");
     modifPortfolio.id = "modif-portfolio";
     modifPortfolio.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>modifier`
 
     introFigureEM.appendChild(modifFigure);
     introArticleEM.prepend(modifIntro);
     projectsEM.prepend(modifPortfolio);
+
+    const btnModale = document.querySelector("#modif-portfolio")
+    btnModale.addEventListener("click", function callModale() {
+        console.log("testmodale");
+        const modaleBackGround = document.createElement("div")
+        modaleBackGround.id = "modale-bg";
+        modaleBackGround.innerHTML = `<div id="modale-window"><div id="closingX"><i class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Galerie photo</h4><div id="miniatures"></div><div class="modale-separator"></div><button id="modale-btn">Ajouter une photo</button><p id="modale-suppr">Supprimer la galerie</p></div>`
+
+        main.prepend(modaleBackGround);
+
+        
+        function generateModaleProjects(projects) {
+
+            //creation bloc project 
+                for (let i=0 ; i < projects.length; i++) { 
+                
+                const modaleMiniGallery = document.querySelector("#miniatures");
+        
+                const mini = projects[i];
+        
+                const miniTile = document.createElement("div");
+                miniTile.dataset.id = `minitaure-${projects[i].id}`;
+                miniTile.classList.add("miniature")
+                miniTile.innerHTML = `<figure id="modale-mini-fig-${projects[i].id}" class="miniature-fig"><img src="${mini.imageUrl}" crossorigin="anonymous"><i class="fa-solid fa-arrows-up-down-left-right"></i><i class="fa-solid fa-trash-can"></i></figure><p>éditer</p>`
+         
+        
+                modaleMiniGallery.appendChild(miniTile);
+        
+            };
+        };
+        
+        generateModaleProjects(projects);
+
+        const backToModale1 = "" ;
+    });
 
 }
