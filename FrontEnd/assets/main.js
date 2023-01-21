@@ -9,6 +9,9 @@ const projects = await projectsAPI.json();
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
 
+console.log(projects);
+console.log(categories);
+
 //creation Partie introduction
 function generateIntroprojects(){
 
@@ -286,7 +289,7 @@ function generateEditionMode () {
         console.log("testmodale");
         const modaleBackGround = document.createElement("div")
         modaleBackGround.id = "modale-bg";
-        modaleBackGround.innerHTML = `<div id="modale-window"><div id="closingX"><i class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Galerie photo</h4><div id="miniatures"></div><div class="modale-separator"></div><button id="modale-btn">Ajouter une photo</button><p id="modale-suppr">Supprimer la galerie</p></div>`
+        modaleBackGround.innerHTML = `<div id="modale-window"><div id="modale-nav-icons"><i id="closingX" class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Galerie photo</h4><div id="miniatures"></div><div class="modale-separator"></div><button id="modale-btn">Ajouter une photo</button><p id="modale-suppr">Supprimer la galerie</p></div>`;
 
         main.prepend(modaleBackGround);
 
@@ -311,9 +314,39 @@ function generateEditionMode () {
             };
         };
 
-        generateModaleProjects(projects);
+        generateModaleProjects(projects)
 
-        const backToModale1 = "" ;
+        const modaleContent = document.querySelector("#modale-window");
+
+        const modaleClose = document.querySelector("#closingX");
+        modaleClose.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.querySelector("#modale-bg").remove();
+        })
+
+        const modaleAddProject = document.querySelector("#modale-btn");
+        modaleAddProject.addEventListener("click", function (e) {
+            e.preventDefault();
+            modaleContent.innerHTML = "";
+            modaleContent.innerHTML = `<div id="modale-nav-icons"><i id="modale-back" class="fa-solid fa-arrow-left"></i><i id="closingX" class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Ajout photo</h4>
+            
+            <form action="#" method="post">
+            
+            <label for="name">Nom</label>
+            <input type="text" name="name" id="name">
+            
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email">
+            
+            <label for="message">Message</label>
+            <textarea name="message" id="message" cols="30" rows="10"></textarea>
+            
+            <input type="submit" value="Envoyer"></form>
+            
+            <div id="modale-drop-photo"></div><div class="modale-separator"></div><button id="modale-btn-valid">Valider</button>`;
+        })
+
+        const backToModale1 = document.querySelector("#modale-back") ;
     });
 
 }
