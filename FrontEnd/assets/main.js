@@ -306,7 +306,7 @@ function generateEditionMode () {
                 const miniTile = document.createElement("div");
                 miniTile.dataset.id = `minitaure-${projects[i].id}`;
                 miniTile.classList.add("miniature")
-                miniTile.innerHTML = `<figure id="modale-mini-fig-${projects[i].id}" class="miniature-fig"><img src="${mini.imageUrl}" crossorigin="anonymous"><i class="fa-solid fa-arrows-up-down-left-right"></i><i class="fa-solid fa-trash-can"></i></figure><p>éditer</p>`
+                miniTile.innerHTML = `<figure id="modale-mini-fig-${projects[i].id}" class="miniature-fig"><img src="${mini.imageUrl}" crossorigin="anonymous"><i class="fa-solid fa-arrows-up-down-left-right"></i><i id="trash-${projects[i].id}" class="fa-solid fa-trash-can"></i></figure><p>éditer</p>`
          
         
                 modaleMiniGallery.appendChild(miniTile);
@@ -332,18 +332,18 @@ function generateEditionMode () {
             
             <form action="#" method="post">
             
-            <label for="name">Nom</label>
-            <input type="text" name="name" id="name">
+            <label for="titre">Titre</label>
+            <input type="text" name="titre" id="modale-add-title">
             
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email">
+            <label for="categorie">Catégorie</label>
+            <select type="email" name="email" id="modale-add-category">
             
             <label for="message">Message</label>
             <textarea name="message" id="message" cols="30" rows="10"></textarea>
+            <div class="modale-separator"></div>
+            <input type="submit" id="modale-btn-valid" value="Envoyer"></form>
             
-            <input type="submit" value="Envoyer"></form>
-            
-            <div id="modale-drop-photo"></div><div class="modale-separator"></div><button id="modale-btn-valid">Valider</button>`;
+            `;
         })
 
         const backToModale1 = document.querySelector("#modale-back") ;
