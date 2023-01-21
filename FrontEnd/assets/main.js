@@ -115,7 +115,7 @@ function generateprojectsHead() {
 function generateprojects(projects) {
 
     //creation bloc project 
-        for (let i=0 ; i < projects.length; i++) { 
+    for (let i=0 ; i < projects.length; i++) { 
         
         const projectsGallery = document.querySelector(".gallery");
 
@@ -136,7 +136,6 @@ function generateprojects(projects) {
         projectsGallery.appendChild(projectTile);
         projectTile.appendChild(projectImage);
         projectTile.appendChild(projectCaption);
-
     };
 };
 
@@ -150,14 +149,14 @@ function generateFormContact(){
         contactSection.innerHTML = `<h2>Contact</h2><p>Vous avez un project ? Discutons-en !</p><form action="#" method="post"><label for="name">Nom</label><input type="text" name="name" id="name"><label for="email">Email</label><input type="email" name="email" id="email"><label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea><input type="submit" value="Envoyer"></form></section>`;
         main.appendChild(contactSection);
 
-    };
+};
 
 
 // Generation de la page principale
-    generateIntroprojects();
-    generateprojectsHead();
-    generateprojects(projects);
-    generateFormContact();
+generateIntroprojects();
+generateprojectsHead();
+generateprojects(projects);
+generateFormContact();
 
 //Bouttons du site
 const navLogin = document.querySelector("#nav-login");
@@ -197,11 +196,6 @@ navprojects.addEventListener("click", function (event) {
     generateFormContact();
     }
 });
-
-
-
-
-
 
 function generatePageLogin(){
         
@@ -262,8 +256,9 @@ function generateEditionMode () {
     generateprojects(projects);
     generateFormContact();
 
+    
     // EM = Edition Mode
-    // Génère les élements associés à l'édition du site
+    // Génère les boutons d'édition du site
     const loginLogout = document.querySelector("#nav-login");
     loginLogout.innerText = "Logout";
     const introFigureEM = document.querySelector("#intro-figure");
@@ -284,6 +279,8 @@ function generateEditionMode () {
     introArticleEM.prepend(modifIntro);
     projectsEM.prepend(modifPortfolio);
 
+
+    // Génération de la modale permettant d'ajouter ou retirer des projets
     const btnModale = document.querySelector("#modif-portfolio")
     btnModale.addEventListener("click", function callModale() {
         console.log("testmodale");
@@ -293,11 +290,13 @@ function generateEditionMode () {
 
         main.prepend(modaleBackGround);
 
-        
+        const modaleContent = document.querySelector("#modale-window");
+
+
+        //creation bloc project dans la modale
         function generateModaleProjects(projects) {
 
-            //creation bloc project 
-                for (let i=0 ; i < projects.length; i++) { 
+            for (let i=0 ; i < projects.length; i++) { 
                 
                 const modaleMiniGallery = document.querySelector("#miniatures");
         
@@ -308,43 +307,39 @@ function generateEditionMode () {
                 miniTile.classList.add("miniature")
                 miniTile.innerHTML = `<figure id="modale-mini-fig-${projects[i].id}" class="miniature-fig"><img src="${mini.imageUrl}" crossorigin="anonymous"><i class="fa-solid fa-arrows-up-down-left-right"></i><i id="trash-${projects[i].id}" class="fa-solid fa-trash-can"></i></figure><p>éditer</p>`
          
-        
                 modaleMiniGallery.appendChild(miniTile);
-        
             };
         };
 
         generateModaleProjects(projects)
+        
+        const modaleClose = () =>document.querySelector("#modale-bg").remove();
+        const modaleCloseIcon = document.querySelector("#closingX");
+        modaleCloseIcon.addEventListener("click", modaleClose);
+        
 
-        const modaleContent = document.querySelector("#modale-window");
-
-        const modaleClose = document.querySelector("#closingX");
-        modaleClose.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.querySelector("#modale-bg").remove();
-        })
-
+        // Genere la partie d'ajout de photo dans la modale
         const modaleAddProject = document.querySelector("#modale-btn");
         modaleAddProject.addEventListener("click", function (e) {
             e.preventDefault();
             modaleContent.innerHTML = "";
-            modaleContent.innerHTML = `<div id="modale-nav-icons"><i id="modale-back" class="fa-solid fa-arrow-left"></i><i id="closingX" class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Ajout photo</h4>
-            
-            <form action="#" method="post">
-            
-            <label for="titre">Titre</label>
-            <input type="text" name="titre" id="modale-add-title">
-            
-            <label for="categorie">Catégorie</label>
-            <select type="email" name="email" id="modale-add-category">
-            
-            <label for="message">Message</label>
-            <textarea name="message" id="message" cols="30" rows="10"></textarea>
-            <div class="modale-separator"></div>
-            <input type="submit" id="modale-btn-valid" value="Envoyer"></form>
-            
-            `;
-        })
+            modaleContent.innerHTML = `<div id="modale-nav-icons"><i id="modale-back" class="fa-solid fa-arrow-left"></i><i id="closingX" class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Ajout photo</h4> <form id="form-ajout-photo" action="#" method="post"><label for="titre">Titre</label><input type="text" name="titre" id="modale-add-title"><label for="categorie">Catégorie</label><select type="email" name="email" id="modale-add-category"><label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea><div class="modale-separator"></div><input type="submit" id="modale-btn-valid" value="Envoyer"></form>`;
+
+            modaleCloseIcon.addEventListener("click", modaleClose);
+
+            const modaleBackeIcon = document.querySelector("#modale-back");
+            modaleBackeIcon.addEventListener("click", function () {
+            modaleContent.innerHTML = "";
+            modaleContent.innerHTML = `<div id="modale-nav-icons"><i id="closingX" class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Galerie photo</h4><div id="miniatures"></div><div class="modale-separator"></div><button id="modale-btn">Ajouter une photo</button><p id="modale-suppr">Supprimer la galerie</p>`;
+
+            generateModaleProjects(projects);
+
+            const modaleCloseIcon = document.querySelector("#closingX");
+            modaleCloseIcon.addEventListener("click", function () {
+                document.querySelector("#modale-bg").remove();
+            });
+        });
+    })
 
         const backToModale1 = document.querySelector("#modale-back") ;
     });

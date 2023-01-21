@@ -358,6 +358,7 @@ margin-top: -50px;
 #modale-nav-icons {
 	display: flex;
 	justify-content: space-between;
+	text-align: right;
 	margin-bottom: 16px;
 }
 
@@ -431,7 +432,7 @@ margin-top: -50px;
 
 .miniature-fig {
 	height: 102px;
-	ooverflow: hidden;
+	overflow: hidden;
 	object-fit: contain;
 	object-position: center;
 }
@@ -473,6 +474,12 @@ margin-top: -50px;
 
 .miniature:hover .fa-arrows-up-down-left-right {
 	opacity: 1;
+}
+
+#form-ajout-photo {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 /*
