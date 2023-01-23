@@ -115,6 +115,17 @@ function generateprojectsHead() {
 function generateprojects(projects) {
 
     //creation bloc project 
+    projects.forEach(project => {
+
+        const projectsGallery = document.querySelector(".gallery");
+        const projectTile = document.createElement("figure");
+        projectTile.dataset.id = project.id;
+        projectTile.dataset.cat = project.categoryId;
+        projectTile.innerHTML = `<img src="${project.imageUrl}" alt="${project.title}" crossorigin="anonymous"></img><figcaption>${project.title}</figcaption>`;
+
+        projectsGallery.appendChild(projectTile);
+});
+    /*
     for (let i=0 ; i < projects.length; i++) { 
         
         const projectsGallery = document.querySelector(".gallery");
@@ -137,6 +148,7 @@ function generateprojects(projects) {
         projectTile.appendChild(projectImage);
         projectTile.appendChild(projectCaption);
     };
+    */
 };
 
 //Creation bloc formulaire de contact
