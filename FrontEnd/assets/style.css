@@ -346,25 +346,32 @@ margin-top: -50px;
 
 #modale-window {
 	box-sizing: border-box;
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	padding: 32px 36px 48px 36px;
+	padding: 60px 105px 55px 105px;
 	background-color: #fff;
 	width: 630px;
 	opacity: 1;
 	border-radius: 10px;
 }
 
-#modale-nav-icons {
-	display: flex;
-	justify-content: space-between;
-	text-align: right;
-	margin-bottom: 16px;
-}
-
 #closingX, #modale-back {
 	cursor: pointer;
+	position: absolute;
+	top: 30px;
 }
+
+#closingX {
+	right: 30px;
+	;
+}
+
+#modale-back {
+	left: 30px;
+}
+
+
 #modale-title {
 	text-align: center;
 	font-size: 26px;

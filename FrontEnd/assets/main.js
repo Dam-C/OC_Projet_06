@@ -1,9 +1,31 @@
+import { callModale } from "./modale.js";
+
 //Vidage du localeStorage pour les besoins de la construction du site
-localStorage.clear();
+//localStorage.clear();
+
 // Fichiers de l'API
-const categoriesAPI = await fetch("http://localhost:5678/api/categories");
+
+// const response = await fetch(url, {
+//     method: 'POST', // *GET, POST, PUT, DELETE, etc.
+//     mode: 'cors', // no-cors, *cors, same-origin
+//     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+//     credentials: 'same-origin', // include, *same-origin, omit
+//     headers: {
+//       'Content-Type': 'application/json'
+//       // 'Content-Type': 'application/x-www-form-urlencoded',
+//     },
+//     redirect: 'follow', // manual, *follow, error
+//     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+//     body: JSON.stringify(data) // body data type must match "Content-Type" header
+//   });
+
+const BACKEND_URL = "http://localhost:5678/api"
+
+// const categoriesAPI = await (await fetch(BACKEND_URL + "/categories")).json();
+const categoriesAPI = await fetch(BACKEND_URL + "/categories");
 const categories = await categoriesAPI.json();
-const projectsAPI = await fetch("http://localhost:5678/api/works");
+
+const projectsAPI = await fetch(BACKEND_URL + "/works");
 const projects = await projectsAPI.json();
 
 //Selecteur pour la zone dans laquelle le code va se générer
@@ -12,8 +34,18 @@ const main = document.querySelector("main");
 console.log(projects);
 console.log(categories);
 
+// let figure = document.createElement("figure"); // is it needed ?
+
+function createImage(attr){ //Attr is an object with all attributes needed
+    const img = document.createElement('img');
+    img.src = attr.src
+    img.id = attr.id;
+
+    return img
+}
+
 //creation Partie introduction
-function generateIntroprojects(){
+function generateIntroProjects(){ //naming !! in camel case should be generateIntroProjects 
 
     //creation bloc intro
     const projectsIntroSection = document.createElement("section");
@@ -21,22 +53,31 @@ function generateIntroprojects(){
 
     const projectsIntroFigure = document.createElement("figure");
     projectsIntroFigure.id = "intro-figure"
+
     const projectsIntroFigureImg = document.createElement("img");
     projectsIntroFigureImg.src = "./assets/images/sophie-bluel.png";
+
+    // refactor ?
+    // const img = createImage({src: "./assets/images/sophie-bluel.png", id: "idImage"})
+
     const projectsIntroArticle = document.createElement("article");
     projectsIntroArticle.id = "intro-article"
-    const projectsIntroText = "<h2>Designer d'espace</h2><p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p><p>Chaque project sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p><p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>";
+    const projectsIntroText = `
+    <h2>Designer d'espace</h2>
+    <p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
+    <p>Chaque project sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
+    <p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
+    `;
     projectsIntroArticle.innerHTML = projectsIntroText;
 
     main.appendChild(projectsIntroSection);
     projectsIntroSection.appendChild(projectsIntroFigure);
     projectsIntroFigure.appendChild(projectsIntroFigureImg);
     projectsIntroSection.appendChild(projectsIntroArticle);
-  //  }
 };
 
 //Creation de la zone filtres des projects
-function generateprojectsHead() {
+function generateProjectsHead() { // naming !!
     //creation section projects
     const projectsSection = document.createElement("section");
     projectsSection.id = "portfolio";
@@ -52,34 +93,38 @@ function generateprojectsHead() {
     filtresButtTous.classList.add("filtre-cat");
     filtresButtTous.innerText = "Tous";
     
-    function filtresCategories (categories) {
-        for (let i = 0; i < categories.length; i++) {
+    function filtresCategories (category) { // displayBtnCategories naming for i.e
+        
+        categories.forEach(category => {
             const filtreCat = document.createElement("button");
-            filtreCat.id = `filtre-${categories[i].id}`;
+            filtreCat.id = `filtre-${category.id}`;
             filtreCat.classList.add("filtre-cat");
-            filtreCat.innerText = categories[i].name;
+            filtreCat.innerText = category.name;
             projectsFiltresDiv.appendChild(filtreCat);
-        };
+        });
     };
 
     const projectsGallery = document.createElement("div");
     projectsGallery.classList.add("gallery");
 
     main.appendChild(projectsSection);
+    
     projectsSection.appendChild(projectsHead);
     projectsSection.appendChild(projectsFiltresDiv);
+    projectsSection.appendChild(projectsGallery);
+
     projectsFiltresDiv.appendChild(filtresButtTous);
     filtresCategories(categories);
-    projectsSection.appendChild(projectsGallery);
 
 
     //génération des boutons de filtres
+    //@TODO : create a single function to handle filters
     const masterFilter = document.querySelector("#master-filter");
+
     masterFilter.addEventListener("click", function (event) {
         event.preventDefault();
         document.querySelector(".gallery").innerHTML = "";
-        generateprojects(projects);
-        console.log(projects);
+        generateProjects(projects);
     });
 
     const filtreObj = document.querySelector("#filtre-1");
@@ -88,16 +133,14 @@ function generateprojectsHead() {
             return project.category.id == 1;
         });
         document.querySelector(".gallery").innerHTML = "";
-        generateprojects(projectsFiltres);
-        console.log(projectsFiltres);
+        generateProjects(projectsFiltres);
     });
 
     const filtreAppart = document.querySelector("#filtre-2");
     filtreAppart.addEventListener("click", function () {
         const projectsFiltres = projects.filter(project => project.category.id == 2);
         document.querySelector(".gallery").innerHTML = "";
-        generateprojects(projectsFiltres);
-        console.log(projectsFiltres);
+        generateProjects(projectsFiltres);
     });
 
     const filtreHetR = document.querySelector("#filtre-3");
@@ -106,13 +149,12 @@ function generateprojectsHead() {
             return project.category.id == 3;
         });
         document.querySelector(".gallery").innerHTML = "";
-        generateprojects(projectsFiltres);
-        console.log(projectsFiltres);
+        generateProjects(projectsFiltres);
     });
 };
 
 //Creation zone des projects
-function generateprojects(projects) {
+function generateProjects(projects) {
 
     //creation bloc project 
     projects.forEach(project => {
@@ -124,56 +166,48 @@ function generateprojects(projects) {
         projectTile.innerHTML = `<img src="${project.imageUrl}" alt="${project.title}" crossorigin="anonymous"></img><figcaption>${project.title}</figcaption>`;
 
         projectsGallery.appendChild(projectTile);
-});
-    /*
-    for (let i=0 ; i < projects.length; i++) { 
-        
-        const projectsGallery = document.querySelector(".gallery");
-
-        const project = projects[i];
-
-        const projectTile = document.createElement("figure");
-        projectTile.dataset.id = projects[i].id;
-        projectTile.dataset.cat = projects[i].categoryId;
-        
-        const projectImage = document.createElement("img");
-        projectImage.src = project.imageUrl;
-        projectImage.setAttribute("alt", project.title);
-        projectImage.setAttribute("crossorigin", "anonymous");
-
-        const projectCaption = document.createElement("figcaption");
-        projectCaption.innerText = project.title;
-
-        projectsGallery.appendChild(projectTile);
-        projectTile.appendChild(projectImage);
-        projectTile.appendChild(projectCaption);
-    };
-    */
+    });
 };
 
 //Creation bloc formulaire de contact
 function generateFormContact(){
         
-        //creation bloc contact        
-        const contactSection = document.createElement("section");
-        contactSection.id = "contact";
+    //creation bloc contact        
+    const contactSection = document.createElement("section");
+    contactSection.id = "contact";
 
-        contactSection.innerHTML = `<h2>Contact</h2><p>Vous avez un project ? Discutons-en !</p><form action="#" method="post"><label for="name">Nom</label><input type="text" name="name" id="name"><label for="email">Email</label><input type="email" name="email" id="email"><label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea><input type="submit" value="Envoyer"></form></section>`;
-        main.appendChild(contactSection);
+    contactSection.innerHTML = `
+    <h2>Contact</h2>
+    <p>Vous avez un project ? Discutons-en !</p>
+        <form action="#" method="post"><label for="name">Nom</label>
+            <input type="text" name="name" id="name">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email">
+            <label for="message">Message</label>
+            <textarea name="message" id="message" cols="30" rows="10"></textarea>
+            <input type="submit" value="Envoyer">
+        </form>
+    </section>`
+    ;
+    main.appendChild(contactSection);
 
 };
 
-
 // Generation de la page principale
-generateIntroprojects();
-generateprojectsHead();
-generateprojects(projects);
-generateFormContact();
+function generateMainPage () {
+    
+    generateIntroProjects();
+    generateProjectsHead();
+    generateProjects(projects);
+    generateFormContact();
+};
+
+generateMainPage ();
 
 //Bouttons du site
 const navLogin = document.querySelector("#nav-login");
 navLogin.addEventListener("click", function (event) {
-    event.preventDefault();
+    event.preventDefault(); // why ?
     if(localStorage.tokenID) {
         localStorage.clear();
         const loginLogout = document.querySelector("#nav-login");
@@ -197,15 +231,15 @@ navContact.addEventListener("click", function (event) {
 
 const navprojects = document.querySelector("#nav-projets");
 navprojects.addEventListener("click", function (event) {
-    event.preventDefault();
+    event.preventDefault(); //usefull only for formulas !
+
     if (localStorage.tokenID) {
         generateEditionMode();
     } else {
     main.innerHTML = "";
-    generateIntroprojects();
-    generateprojectsHead();
-    generateprojects(projects);
-    generateFormContact();
+
+    generateMainPage();
+
     }
 });
 
@@ -215,7 +249,17 @@ function generatePageLogin(){
     const loginSection = document.createElement("section");
     loginSection.id = "login";
 
-    const loginHTML = `<article class="login__container"><h2>Log In</h2><form class="login__fields"><label for="email-login">E-mail</label><input type="email" name="email-login" id="email-login"><label for="mdp-login">Mot de passe</label><input type="password" name="mdp-login" id="mdp-login"><button type="button" id="btn-login" value="Se connecter">Se connecter</button><input type="mdp-forgot" value="Mot de passe oublié"></form></article>`;
+    const loginHTML = `<article class="login__container">
+    <h2>Log In</h2>
+        <form class="login__fields">
+            <label for="email-login">E-mail</label>
+            <input type="email" name="email-login" id="email-login">
+            <label for="mdp-login">Mot de passe</label>
+            <input type="password" name="mdp-login" id="mdp-login">
+            <button type="button" id="btn-login" value="Se connecter">Se connecter</button>
+            <input type="mdp-forgot" value="Mot de passe oublié">
+        </form>
+    </article>`;
     
     loginSection.innerHTML = loginHTML;
     main.appendChild(loginSection);
@@ -249,7 +293,11 @@ function generatePageLogin(){
             const body = document.querySelector("body");
             const headerEM = document.createElement("div");
             headerEM.id = "top-edit-mode-container";
-            headerEM.innerHTML = `<div id="top-edit-mode"><i class="fa-regular fa-pen-to-square"></i> Mode édition<button>publier les changements</button></div>`;
+            headerEM.innerHTML = `
+            <div id="top-edit-mode">
+            <i class="fa-regular fa-pen-to-square"></i>Mode édition
+            <button>publier les changements</button>
+            </div>`;
 
     body.prepend(headerEM);
             localStorage.setItem("tokenID", token.token);
@@ -263,14 +311,9 @@ function generatePageLogin(){
 function generateEditionMode () {
 
     main.innerHTML = "";
-    generateIntroprojects();
-    generateprojectsHead();
-    generateprojects(projects);
-    generateFormContact();
+    generateMainPage();
 
-    
-    // EM = Edition Mode
-    // Génère les boutons d'édition du site
+    // EM = Edition Mode - Génère les boutons d'édition du site
     const loginLogout = document.querySelector("#nav-login");
     loginLogout.innerText = "Logout";
     const introFigureEM = document.querySelector("#intro-figure");
@@ -291,69 +334,7 @@ function generateEditionMode () {
     introArticleEM.prepend(modifIntro);
     projectsEM.prepend(modifPortfolio);
 
-
     // Génération de la modale permettant d'ajouter ou retirer des projets
     const btnModale = document.querySelector("#modif-portfolio")
-    btnModale.addEventListener("click", function callModale() {
-        console.log("testmodale");
-        const modaleBackGround = document.createElement("div")
-        modaleBackGround.id = "modale-bg";
-        modaleBackGround.innerHTML = `<div id="modale-window"><div id="modale-nav-icons"><i id="closingX" class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Galerie photo</h4><div id="miniatures"></div><div class="modale-separator"></div><button id="modale-btn">Ajouter une photo</button><p id="modale-suppr">Supprimer la galerie</p></div>`;
-
-        main.prepend(modaleBackGround);
-
-        const modaleContent = document.querySelector("#modale-window");
-
-
-        //creation bloc project dans la modale
-        function generateModaleProjects(projects) {
-
-            for (let i=0 ; i < projects.length; i++) { 
-                
-                const modaleMiniGallery = document.querySelector("#miniatures");
-        
-                const mini = projects[i];
-        
-                const miniTile = document.createElement("div");
-                miniTile.dataset.id = `minitaure-${projects[i].id}`;
-                miniTile.classList.add("miniature")
-                miniTile.innerHTML = `<figure id="modale-mini-fig-${projects[i].id}" class="miniature-fig"><img src="${mini.imageUrl}" crossorigin="anonymous"><i class="fa-solid fa-arrows-up-down-left-right"></i><i id="trash-${projects[i].id}" class="fa-solid fa-trash-can"></i></figure><p>éditer</p>`
-         
-                modaleMiniGallery.appendChild(miniTile);
-            };
-        };
-
-        generateModaleProjects(projects)
-        
-        const modaleClose = () =>document.querySelector("#modale-bg").remove();
-        const modaleCloseIcon = document.querySelector("#closingX");
-        modaleCloseIcon.addEventListener("click", modaleClose);
-        
-
-        // Genere la partie d'ajout de photo dans la modale
-        const modaleAddProject = document.querySelector("#modale-btn");
-        modaleAddProject.addEventListener("click", function (e) {
-            e.preventDefault();
-            modaleContent.innerHTML = "";
-            modaleContent.innerHTML = `<div id="modale-nav-icons"><i id="modale-back" class="fa-solid fa-arrow-left"></i><i id="closingX" class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Ajout photo</h4> <form id="form-ajout-photo" action="#" method="post"><label for="titre">Titre</label><input type="text" name="titre" id="modale-add-title"><label for="categorie">Catégorie</label><select type="email" name="email" id="modale-add-category"><label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea><div class="modale-separator"></div><input type="submit" id="modale-btn-valid" value="Envoyer"></form>`;
-
-            modaleCloseIcon.addEventListener("click", modaleClose);
-
-            const modaleBackeIcon = document.querySelector("#modale-back");
-            modaleBackeIcon.addEventListener("click", function () {
-            modaleContent.innerHTML = "";
-            modaleContent.innerHTML = `<div id="modale-nav-icons"><i id="closingX" class="fa-solid fa-xmark"></i></div><h4 id="modale-title">Galerie photo</h4><div id="miniatures"></div><div class="modale-separator"></div><button id="modale-btn">Ajouter une photo</button><p id="modale-suppr">Supprimer la galerie</p>`;
-
-            generateModaleProjects(projects);
-
-            const modaleCloseIcon = document.querySelector("#closingX");
-            modaleCloseIcon.addEventListener("click", function () {
-                document.querySelector("#modale-bg").remove();
-            });
-        });
-    })
-
-        const backToModale1 = document.querySelector("#modale-back") ;
-    });
-
-}
+    btnModale.addEventListener("click", callModale)
+};
