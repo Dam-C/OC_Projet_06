@@ -10,6 +10,7 @@ const projects = await projectsAPI.json();
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
 
+console.log(categories)
 
 export function callModale () {
     
@@ -73,19 +74,62 @@ function modaleAddProject () {
         <h4 id="modale-title">Ajout photo</h4>
 
         <form id="form-ajout-photo" action="#" method="post">
-            <div>
+            <label id="upload-img-area">
+                <div id="img-preview-area">
+                    <img id="show-img-preview">
+                </div>
                 <i class="fa-regular fa-image"></i>
-                <button>+ Ajouter photo</button>
-                <span>jpg, png : 4mo max</span>
-            </div>
+                <span id="upload-img-btn">+ Ajouter photo</span>
+                <input type="file" id="upload-img-html" accept="image/*" onchange="showPreview(event);"></input>
+                <span class="upload-img-subtxt">jpg, png : 4mo max</span>
+            </label>
             <label for="titre">Titre</label>
             <input type="text" name="titre" id="modale-add-title">
             <label for="categorie">Catégorie</label>
-            <select type="email" name="email" id="modale-add-category">
-            <label for="message">Message</label><textarea name="message" id="message" cols="30" rows="10"></textarea>
+            <select name="categorie" id="modale-add-category" data-dashlane-rid="38f416d00215ea44" data-form-type="other">
+                <option></option>
+                <option value="${categories[0].name}">${categories[0].name}</option>
+                <option value="${categories[1].name}">${categories[1].name}</option>
+                <option value="${categories[2].name}">${categories[2].name}</option>
+            </select>
             <div class="modale-separator"></div>
             <input type="submit" id="modale-btn-valid" value="Envoyer">
         </form>`;
+
+/**
+ * Create an arrow function that will be called when an image is selected.
+ */
+const showPreview = (event) => {
+    /**
+     * Get the selected files.
+     */
+    const imageFiles = event.target.files;
+    /**
+     * Count the number of files selected.
+     */
+    const imageFilesLength = imageFiles.length;
+    /**
+     * If at least one image is selected, then proceed to display the preview.
+     */
+    if (imageFilesLength > 0) {
+        /**
+         * Get the image path.
+         */
+        const imageSrc = URL.createObjectURL(imageFiles[0]);
+        /**
+         * Select the image preview element.
+         */
+        const imagePreviewElement = document.querySelector("#show-img-preview");
+        /**
+         * Assign the path to the image preview element.
+         */
+        imagePreviewElement.src = imageSrc;
+        /**
+         * Show the element by changing the display value to "block".
+         */
+        imagePreviewElement.style.display = "block";
+    }
+};
 
     const modaleClose = () => document.querySelector("#modale-bg").remove();
     let modaleCloseIcon = document.querySelector("#closingX");

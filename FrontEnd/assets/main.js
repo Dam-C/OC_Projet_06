@@ -1,4 +1,6 @@
 import { callModale } from "./modale.js";
+import { generatePageLogin } from "./login.js";
+
 
 //Vidage du localeStorage pour les besoins de la construction du site
 //localStorage.clear();
@@ -30,9 +32,6 @@ const projects = await projectsAPI.json();
 
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
-
-console.log(projects);
-console.log(categories);
 
 // let figure = document.createElement("figure"); // is it needed ?
 
@@ -195,11 +194,10 @@ function generateFormContact(){
 
 // Generation de la page principale
 function generateMainPage () {
-    
-    generateIntroProjects();
-    generateProjectsHead();
-    generateProjects(projects);
-    generateFormContact();
+        generateIntroProjects();
+        generateProjectsHead();
+        generateProjects(projects);
+        generateFormContact();
 };
 
 generateMainPage ();
@@ -207,7 +205,6 @@ generateMainPage ();
 //Bouttons du site
 const navLogin = document.querySelector("#nav-login");
 navLogin.addEventListener("click", function (event) {
-    event.preventDefault(); // why ?
     if(localStorage.tokenID) {
         localStorage.clear();
         const loginLogout = document.querySelector("#nav-login");
@@ -223,15 +220,13 @@ navLogin.addEventListener("click", function (event) {
 });
 
 const navContact = document.querySelector("#nav-contact");
-navContact.addEventListener("click", function (event) {
-    event.preventDefault();
+navContact.addEventListener("click", function () {
     main.innerHTML = "";
     generateFormContact();
 });
 
 const navprojects = document.querySelector("#nav-projets");
-navprojects.addEventListener("click", function (event) {
-    event.preventDefault(); //usefull only for formulas !
+navprojects.addEventListener("click", function () {
 
     if (localStorage.tokenID) {
         generateEditionMode();
@@ -239,76 +234,10 @@ navprojects.addEventListener("click", function (event) {
     main.innerHTML = "";
 
     generateMainPage();
-
-    }
+}
 });
 
-function generatePageLogin(){
-        
-    //creation bloc Login
-    const loginSection = document.createElement("section");
-    loginSection.id = "login";
-
-    const loginHTML = `<article class="login__container">
-    <h2>Log In</h2>
-        <form class="login__fields">
-            <label for="email-login">E-mail</label>
-            <input type="email" name="email-login" id="email-login">
-            <label for="mdp-login">Mot de passe</label>
-            <input type="password" name="mdp-login" id="mdp-login">
-            <button type="button" id="btn-login" value="Se connecter">Se connecter</button>
-            <input type="mdp-forgot" value="Mot de passe oublié">
-        </form>
-    </article>`;
-    
-    loginSection.innerHTML = loginHTML;
-    main.appendChild(loginSection);
-    
-    const loginBtn = document.querySelector("#btn-login")
-        .addEventListener("click", async function () {
-
-        const loginMail = document.querySelector("#email-login").value;
-        const loginPass = document.querySelector("#mdp-login").value;
-
-        const loginIDS = {
-            email: loginMail,
-            password: loginPass,
-        };
-
-        const loginReqIDS = JSON.stringify(loginIDS);
-
-        const r = await fetch("http://localhost:5678/api/users/login", {
-            method : "POST",
-            headers : {
-                "Accept" : "application/json",
-                "Content-type" : "application/json"
-            },
-            body: loginReqIDS
-        })
-
-        const token = await r.json();
-        console.log(token);
-         if (r.ok === true) {
-            alert("Connexion réussie");
-            const body = document.querySelector("body");
-            const headerEM = document.createElement("div");
-            headerEM.id = "top-edit-mode-container";
-            headerEM.innerHTML = `
-            <div id="top-edit-mode">
-            <i class="fa-regular fa-pen-to-square"></i>Mode édition
-            <button>publier les changements</button>
-            </div>`;
-
-    body.prepend(headerEM);
-            localStorage.setItem("tokenID", token.token);
-            generateEditionMode();
-        } else {
-            alert("Erreur dans l’identifiant ou le mot de passe");
-        }
-    });
-};
-
-function generateEditionMode () {
+export function generateEditionMode () {
 
     main.innerHTML = "";
     generateMainPage();
