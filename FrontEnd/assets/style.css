@@ -439,6 +439,18 @@ margin-top: -50px;
 #modale-btn-valid {
 	width: 237px;
 	cursor: pointer;
+	font-family: 'Syne';
+	font-size: 14px;
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 25px;
+	padding: 10px 50px 10px 50px;
+	text-align: center;
+	border-radius: 60px ;
+	border: none;
 }
 
 #modale-suppr {
@@ -543,6 +555,7 @@ margin-top: -50px;
 
 #upload-img-btn {
 	cursor: pointer;
+	display: block;
 	font-family: 'Work Sans';
 	font-size: 14px;
 	font-weight: 500;
@@ -557,13 +570,53 @@ margin-top: -50px;
 
 #img-preview-area {
 	position: absolute;
-	width: 30px;
-	height: 166px;
+	object-fit:contain;
+	object-position: center;
+	height: 200px;
+	overflow: hidden;
+	;
 }
 
 #show-img-preview {
-
+	max-width: 170px;
 }
+
+.form-input {
+	width:350px;
+	padding:20px;
+	background:#fff;
+	box-shadow: -3px -3px 7px rgba(94, 104, 121, 0.377),
+				3px 3px 7px rgba(94, 104, 121, 0.377);
+  }
+  .form-input input {
+	display:none;
+  
+  }
+  .form-input label {
+	display:block;
+	width:45%;
+	height:45px;
+	margin-left: 25%;
+	line-height:50px;
+	text-align:center;
+	background:#1172c2;
+  
+	color:#fff;
+	font-size:15px;
+	font-family:"Open Sans",sans-serif;
+	text-transform:Uppercase;
+	font-weight:600;
+	border-radius:5px;
+	cursor:pointer;
+  }
+  
+  .form-input img {
+	width:100%;
+	display:none;
+  
+	margin-bottom:30px;
+  }
+
 
 /*
 

@@ -3,7 +3,7 @@ import { generatePageLogin } from "./login.js";
 
 
 //Vidage du localeStorage pour les besoins de la construction du site
-//localStorage.clear();
+localStorage.clear();
 
 // Fichiers de l'API
 
@@ -29,6 +29,10 @@ const categories = await categoriesAPI.json();
 
 const projectsAPI = await fetch(BACKEND_URL + "/works");
 const projects = await projectsAPI.json();
+
+console.log(projects);
+console.log(categories);
+
 
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
