@@ -49,20 +49,10 @@ export function generatePageLogin(){
         })
 
         const token = await r.json();
-        console.log(token);
-         if (r.ok === true) {
-            alert("Connexion réussie");
-            const body = document.querySelector("body");
-            const headerEM = document.createElement("div");
-            headerEM.id = "top-edit-mode-container";
-            headerEM.innerHTML = `
-            <div id="top-edit-mode">
-            <i class="fa-regular fa-pen-to-square"></i>Mode édition
-            <button>publier les changements</button>
-            </div>`;
 
-    body.prepend(headerEM);
-            localStorage.setItem("tokenID", token.token);
+        if (r.ok === true) {
+            alert("Connexion réussie");
+           localStorage.setItem("tokenID", token.token);
             generateEditionMode();
         } else {
             alert("Erreur dans l’identifiant ou le mot de passe");

@@ -1,12 +1,6 @@
+import { generateEditionMode } from "./main.js";
+
 const BACKEND_URL = "http://localhost:5678/api"
-/*
-
-TOKEN D'AUTENTIFICATION
-
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY3NDgxNjM0NSwiZXhwIjoxNjc0OTAyNzQ1fQ.XptFFR0hiyg70a8WNpTmRR2364LLAsGFFD5qxdJoaKo
-
-*/
-
 
 // const categoriesAPI = await (await fetch(BACKEND_URL + "/categories")).json();
 const categoriesAPI = await fetch(BACKEND_URL + "/categories")
@@ -65,6 +59,7 @@ function generateModaleGallery () {
 
     generateModaleProjects(projects);
 
+    const trashProjectIDS = document.querySelectorAll("");
     
     const modaleClose = () => document.querySelector("#modale-bg").remove();
     let modaleCloseIcon = document.querySelector("#closingX");
@@ -74,6 +69,10 @@ function generateModaleGallery () {
     modaleAddProjectBtn.addEventListener("click", modaleAddProject)
 };
 
+    // Genere la partie de suppression de photo dans la modale
+function modaleDeleteProject () {
+    
+}
 
     // Genere la partie d'ajout de photo dans la modale
 function modaleAddProject () {
@@ -137,40 +136,22 @@ function modaleAddProject () {
         formData.append("title",sendProjectTitle);
         formData.append("category",sendProjectCategory);
 
-        console.log(formData); //empty why ????
-
-        fetch("http://localhost:5678/api/works", {
+        const r = await fetch("http://localhost:5678/api/works", {
             method : "POST",
             body : formData,
             headers: {
                 Authorization:`Bearer ${token}`,
                 "accept": "application/json"
             }
-
         })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
+
+        if (r.ok === true) {
+            alert("projet ajouté avec succés");
+        } else {
+            alert("Le projet n'a pas pu être ajouté");
+        }
     });
 
-/*
-        const newProjectToAPI = {
-            image: sendProjectImg,
-            title: sendProjectTitle,
-            category: sendProjectCategory,
-        };
-
-       const newProjectToAPIJSON = JSON.stringify(newProjectToAPI);
-
-        const r = await fetch("http://localhost:5678/api/works", {
-            method : "POST",
-            body : formData,
-        });
-
-        console.log(r);
-
-    });
-*/
     const modaleClose = () => document.querySelector("#modale-bg").remove();
     let modaleCloseIcon = document.querySelector("#closingX");
     modaleCloseIcon.addEventListener("click", modaleClose);   
@@ -178,36 +159,3 @@ function modaleAddProject () {
     const modaleBackeIcon = document.querySelector("#modale-back");
     modaleBackeIcon.addEventListener("click", generateModaleGallery);
 };
-
-
-
-
-
-
-
-/*
-<div id="upload-img-area">
-                <div id="img-preview-area">
-                    <img id="show-img-preview">
-                </div>
-                <i class="fa-regular fa-image"></i>
-                <label for="upload-img-html" id="upload-img-btn">+ Ajouter photo</label>
-                <input type="file" id="upload-img-html" accept="image/*"></input>
-                <span class="upload-img-subtxt">jpg, png : 4mo max</span>
-            </div>
-*/
-
-/*
-
-    const btnUploadImg = document.getElementById("upload-img-html");
-    btnUploadImg.addEventListener("onchange",showPreview);
-
-    function showPreview(event){
-        if(event.target.files.length > 0){
-            var src = URL.createObjectURL(event.target.files[0]);
-            var preview = document.getElementById("show-img-preview");
-            preview.src = src;
-            preview.style.display = "block";
-        }
-    }
-*/

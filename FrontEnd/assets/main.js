@@ -243,6 +243,17 @@ navprojects.addEventListener("click", function () {
 
 export function generateEditionMode () {
 
+    const body = document.querySelector("body");
+    const headerEM = document.createElement("div");
+    headerEM.id = "top-edit-mode-container";
+    headerEM.innerHTML = `
+    <div id="top-edit-mode">
+    <i class="fa-regular fa-pen-to-square"></i>Mode édition
+    <button>publier les changements</button>
+    </div>`;
+
+    body.prepend(headerEM);
+
     main.innerHTML = "";
     generateMainPage();
 
