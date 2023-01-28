@@ -51,15 +51,22 @@ function generateModaleGallery () {
             modaleMiniGallery.appendChild(miniTile);
 
             const trashBtn = document.querySelector(`#trash-${project.id}`);
-            trashBtn.addEventListener("click", function () {
+            trashBtn.addEventListener("click", async function () {
                 console.log(`DELETE PROJECT ${project.id}`);
+
+                const r = await fetch(`http://localhost:5678/api/works/${project.id}`, {
+                    method : "DELETE",
+                    headers: {
+                        Authorization:`Bearer ${localStorage.tokenID}`,
+                        "accept": "application/json"
+                    },
+                })
+
             });
         });
     };
 
     generateModaleProjects(projects);
-
-    const trashProjectIDS = document.querySelectorAll("");
     
     const modaleClose = () => document.querySelector("#modale-bg").remove();
     let modaleCloseIcon = document.querySelector("#closingX");

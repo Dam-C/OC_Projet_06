@@ -96,7 +96,7 @@ function generateProjectsHead() { // naming !!
     filtresButtTous.classList.add("filtre-cat");
     filtresButtTous.innerText = "Tous";
     
-    function filtresCategories (category) { // displayBtnCategories naming for i.e
+    function displayBtnCategories (category) { // displayBtnCategories naming for i.e
         
         categories.forEach(category => {
             const filtreCat = document.createElement("button");
@@ -117,7 +117,7 @@ function generateProjectsHead() { // naming !!
     projectsSection.appendChild(projectsGallery);
 
     projectsFiltresDiv.appendChild(filtresButtTous);
-    filtresCategories(categories);
+    displayBtnCategories(categories);
 
 
     //génération des boutons de filtres
