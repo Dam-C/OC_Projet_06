@@ -1,9 +1,9 @@
 import { generateEditionMode } from "./main.js";
 
+const BACKEND_URL = "http://localhost:5678/api"
 
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
-
 
 export function generatePageLogin(){
         
@@ -27,35 +27,30 @@ export function generatePageLogin(){
     main.appendChild(loginSection);
     
     const loginBtn = document.querySelector("#btn-login")
-        .addEventListener("click", async function () {
-
-        const loginMail = document.querySelector("#email-login").value;
-        const loginPass = document.querySelector("#mdp-login").value;
-
-        const loginIDS = {
-            email: loginMail,
-            password: loginPass,
+        .addEventListener("click", async (e)=> {
+            e.preventDefault();
+            const loginIDS = {
+            email: document.querySelector("#email-login").value,
+            password: document.querySelector("#mdp-login").value,
         };
 
-        const loginReqIDS = JSON.stringify(loginIDS);
-
-        const r = await fetch("http://localhost:5678/api/users/login", {
+        const r = await fetch(`${BACKEND_URL}/users/login`, {
             method : "POST",
             headers : {
                 "Accept" : "application/json",
                 "Content-type" : "application/json"
             },
-            body: loginReqIDS
+            body: JSON.stringify(loginIDS)
         })
 
         const token = await r.json();
 
         if (r.ok === true) {
             alert("Connexion réussie");
-           localStorage.setItem("tokenID", token.token);
+            localStorage.setItem("tokenID", token.token);
             generateEditionMode();
         } else {
-            alert("Erreur dans l’identifiant ou le mot de passe");
+            alert(`Erreur dans l’identifiant ou le mot de passe`);
         }
     });
 };

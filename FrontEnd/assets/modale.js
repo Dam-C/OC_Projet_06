@@ -15,15 +15,17 @@ const main = document.querySelector("main");
 export function callModale () {
     
     const modaleBackGround = document.createElement("div")
-        modaleBackGround.id = "modale-bg";
+        modaleBackGround.id = `modale-bg`;
         main.prepend(modaleBackGround);
         generateModaleGallery();
+
+
+//        const modaleClose = () => document.querySelector("#modale-bg").remove();
+//        modaleBackGround.addEventListener("click", modaleClose);
 }
 
-
-
 function generateModaleGallery () {
-    document.querySelector("#modale-bg")
+    document.querySelector(`#modale-bg`)
         .innerHTML = `
         <div id="modale-window">
             <i id="closingX" class="fa-solid fa-xmark"></i>
@@ -46,46 +48,48 @@ function generateModaleGallery () {
             const miniTile = document.createElement("div");
             miniTile.dataset.id = `minitaure-${project.id}`;
             miniTile.classList.add("miniature")
-            miniTile.innerHTML = `<figure id="modale-mini-fig-${project.id}" class="miniature-fig"><img src="${project.imageUrl}" crossorigin="anonymous"><i class="fa-solid fa-arrows-up-down-left-right"></i><i id="trash-${project.id}" class="fa-solid fa-trash-can"></i></figure><p>éditer</p>`
+            miniTile.innerHTML = `
+            <figure id="modale-mini-fig-${project.id}" class="miniature-fig">
+                <img src="${project.imageUrl}" crossorigin="anonymous">
+                <i class="fa-solid fa-arrows-up-down-left-right"></i><i id="trash-${project.id}" type="button" class="fa-solid fa-trash-can"></i>
+            </figure>
+            <p>éditer</p>
+            `;
     
             modaleMiniGallery.appendChild(miniTile);
 
-            const trashBtn = document.querySelector(`#trash-${project.id}`);
-            trashBtn.addEventListener("click", async function () {
-                console.log(`DELETE PROJECT ${project.id}`);
-
-                const r = await fetch(`http://localhost:5678/api/works/${project.id}`, {
-                    method : "DELETE",
-                    headers: {
-                        Authorization:`Bearer ${localStorage.tokenID}`,
-                        "accept": "application/json"
-                    },
-                })
-
-            });
+            // Fonction de suppression de projet à l'intérieur de la modale
+            document.querySelector(`#trash-${project.id}`)
+                .addEventListener("click", async (e)=> {
+                    console.log("delete");
+                    
+                   /* const r = await fetch(`${BACKEND_URL}/works/${project.id}`, {
+                        method : "DELETE",
+                        headers: {
+                            Authorization:`Bearer ${localStorage.tokenID}`,
+                            "accept": "application/json"
+                        },
+                    }); */
+      //              modaleClose();
+        //            generateEditionMode();
+                });
         });
     };
 
     generateModaleProjects(projects);
     
     const modaleClose = () => document.querySelector("#modale-bg").remove();
-    let modaleCloseIcon = document.querySelector("#closingX");
-    modaleCloseIcon.addEventListener("click", modaleClose);   
+    let modaleCloseIcon = document.querySelector("#closingX")
+        .addEventListener("click", modaleClose);   
 
-    let modaleAddProjectBtn = document.querySelector("#modale-btn");
-    modaleAddProjectBtn.addEventListener("click", modaleAddProject)
+    let modaleAddProjectBtn = document.querySelector("#modale-btn")
+        .addEventListener("click", modaleAddProject)
 };
-
-    // Genere la partie de suppression de photo dans la modale
-function modaleDeleteProject () {
-    
-}
 
     // Genere la partie d'ajout de photo dans la modale
 function modaleAddProject () {
 
-    const modaleContent = document.querySelector("#modale-window");
-    modaleContent.innerHTML = `
+    const modaleContent = document.querySelector("#modale-window").innerHTML = `
         <div id="modale-nav-icons">
             <i id="modale-back" class="fa-solid fa-arrow-left"></i><i id="closingX" class="fa-solid fa-xmark"></i>
         </div>
@@ -112,8 +116,8 @@ function modaleAddProject () {
             </select>
             <div class="modale-separator"></div>
             <button type="button" id="modale-btn-valid" value="Valider">Valider</button>
-        </form>`;
-   
+        </form>`
+    ;
 
     //Generation de l'apercu de l'image à envoyer pour le projet
     function showPreview(event){
@@ -129,40 +133,36 @@ function modaleAddProject () {
     btnUploadImg.addEventListener("change",showPreview);
 
     //Generation des données à envoyer à l'API
-    const sendProjectToApi = document.querySelector("#modale-btn-valid");
-    sendProjectToApi.addEventListener("click", async (e)=>{
+    const sendProjectToApi = document.querySelector("#modale-btn-valid")
+        .addEventListener("click", async (e)=>{
         
-        e.preventDefault();
-        const token = localStorage.tokenID;
-        const sendProjectImg = document.querySelector("#upload-img-html").files[0];
-        const sendProjectTitle = document.querySelector("#new-project-title").value;
-        const sendProjectCategory = document.querySelector("#modale-add-category").value;
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append("image",document.querySelector("#upload-img-html").files[0]);
+            formData.append("title",document.querySelector("#new-project-title").value);
+            formData.append("category",document.querySelector("#modale-add-category").value);
 
-        const formData = new FormData();
-        formData.append("image",sendProjectImg);
-        formData.append("title",sendProjectTitle);
-        formData.append("category",sendProjectCategory);
+            const r = await fetch(`${BACKEND_URL}/works`, {
+                method : "POST",
+                body : formData,
+                headers: {
+                    Authorization:`Bearer ${localStorage.tokenID}`,
+                    "accept": "application/json"
+                }
+            })
 
-        const r = await fetch("http://localhost:5678/api/works", {
-            method : "POST",
-            body : formData,
-            headers: {
-                Authorization:`Bearer ${token}`,
-                "accept": "application/json"
+            if (r.ok === true) {
+                alert("projet ajouté avec succés");
+                generateEditionMode();
+            } else {
+                alert("Le projet n'a pas pu être ajouté");
             }
-        })
-
-        if (r.ok === true) {
-            alert("projet ajouté avec succés");
-        } else {
-            alert("Le projet n'a pas pu être ajouté");
-        }
-    });
+        });
 
     const modaleClose = () => document.querySelector("#modale-bg").remove();
-    let modaleCloseIcon = document.querySelector("#closingX");
-    modaleCloseIcon.addEventListener("click", modaleClose);   
+    let modaleCloseIcon = document.querySelector("#closingX")
+        .addEventListener("click", modaleClose);   
 
-    const modaleBackeIcon = document.querySelector("#modale-back");
-    modaleBackeIcon.addEventListener("click", generateModaleGallery);
+    const modaleBackeIcon = document.querySelector("#modale-back")
+        .addEventListener("click", generateModaleGallery);
 };

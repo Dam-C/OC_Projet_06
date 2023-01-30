@@ -1,10 +1,6 @@
 import { callModale } from "./modale.js";
 import { generatePageLogin } from "./login.js";
 
-
-//Vidage du localeStorage pour les besoins de la construction du site
-localStorage.clear();
-
 // Fichiers de l'API
 
 // const response = await fetch(url, {
@@ -29,10 +25,6 @@ const categories = await categoriesAPI.json();
 
 const projectsAPI = await fetch(BACKEND_URL + "/works");
 const projects = await projectsAPI.json();
-
-console.log(projects);
-console.log(categories);
-
 
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
@@ -96,7 +88,7 @@ function generateProjectsHead() { // naming !!
     filtresButtTous.classList.add("filtre-cat");
     filtresButtTous.innerText = "Tous";
     
-    function displayBtnCategories (category) { // displayBtnCategories naming for i.e
+    function displayBtnCategories (category) {
         
         categories.forEach(category => {
             const filtreCat = document.createElement("button");
@@ -178,41 +170,29 @@ function generateFormContact(){
     //creation bloc contact        
     const contactSection = document.createElement("section");
     contactSection.id = "contact";
-
     contactSection.innerHTML = `
-    <h2>Contact</h2>
-    <p>Vous avez un project ? Discutons-en !</p>
-        <form action="#" method="post"><label for="name">Nom</label>
-            <input type="text" name="name" id="name">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email">
-            <label for="message">Message</label>
-            <textarea name="message" id="message" cols="30" rows="10"></textarea>
-            <input type="submit" value="Envoyer">
-        </form>
-    </section>`
+        <h2>Contact</h2>
+        <p>Vous avez un project ? Discutons-en !</p>
+            <form action="#" method="post"><label for="name">Nom</label>
+                <input type="text" name="name" id="name">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" cols="30" rows="10"></textarea>
+                <input type="submit" value="Envoyer">
+            </form>
+        </section>`
     ;
     main.appendChild(contactSection);
 
 };
-
-// Generation de la page principale
-function generateMainPage () {
-        generateIntroProjects();
-        generateProjectsHead();
-        generateProjects(projects);
-        generateFormContact();
-};
-
-generateMainPage ();
 
 //Bouttons du site
 const navLogin = document.querySelector("#nav-login");
 navLogin.addEventListener("click", function (event) {
     if(localStorage.tokenID) {
         localStorage.clear();
-        const loginLogout = document.querySelector("#nav-login");
-        loginLogout.innerText = "Login";
+        const loginLogout = document.querySelector("#nav-login").innerText = "Login";
         document.querySelector("#top-edit-mode-container").remove();
         document.querySelector("#modif-figure").remove();
         document.querySelector("#modif-intro").remove();
@@ -220,7 +200,7 @@ navLogin.addEventListener("click", function (event) {
     } else {
         main.innerHTML = "";
         generatePageLogin();
-        }
+    }
 });
 
 const navContact = document.querySelector("#nav-contact");
@@ -231,14 +211,12 @@ navContact.addEventListener("click", function () {
 
 const navprojects = document.querySelector("#nav-projets");
 navprojects.addEventListener("click", function () {
-
     if (localStorage.tokenID) {
         generateEditionMode();
     } else {
     main.innerHTML = "";
-
     generateMainPage();
-}
+    }
 });
 
 export function generateEditionMode () {
@@ -253,7 +231,6 @@ export function generateEditionMode () {
     </div>`;
 
     body.prepend(headerEM);
-
     main.innerHTML = "";
     generateMainPage();
 
@@ -279,6 +256,15 @@ export function generateEditionMode () {
     projectsEM.prepend(modifPortfolio);
 
     // Génération de la modale permettant d'ajouter ou retirer des projets
-    const btnModale = document.querySelector("#modif-portfolio")
-    btnModale.addEventListener("click", callModale)
+    const btnModale = document.querySelector("#modif-portfolio").addEventListener("click", callModale);
 };
+
+// Generation de la page principale
+function generateMainPage () {
+    generateIntroProjects();
+    generateProjectsHead();
+    generateProjects(projects);
+    generateFormContact();
+};
+
+generateMainPage();
