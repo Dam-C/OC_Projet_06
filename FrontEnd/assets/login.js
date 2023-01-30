@@ -1,56 +1,33 @@
-import { generateEditionMode } from "./main.js";
-
 const BACKEND_URL = "http://localhost:5678/api"
 
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
+   
+document.querySelector(".login__fields")
+    .addEventListener("submit", async (e)=> {
+        e.preventDefault();
+        console.log("test")
+        const loginIDS = {
+        email: document.querySelector("#email-login").value,
+        password: document.querySelector("#mdp-login").value,
+    };
 
-export function generatePageLogin(){
-        
-    //creation bloc Login
-    const loginSection = document.createElement("section");
-    loginSection.id = "login";
+    const r = await fetch(`${BACKEND_URL}/users/login`, {
+        method : "POST",
+        headers : {
+            "Accept" : "application/json",
+            "Content-type" : "application/json"
+        },
+        body: JSON.stringify(loginIDS)
+    })
 
-    const loginHTML = `<article class="login__container">
-    <h2>Log In</h2>
-        <form class="login__fields">
-            <label for="email-login">E-mail</label>
-            <input type="email" name="email-login" id="email-login">
-            <label for="mdp-login">Mot de passe</label>
-            <input type="password" name="mdp-login" id="mdp-login">
-            <button type="button" id="btn-login" value="Se connecter">Se connecter</button>
-            <input type="mdp-forgot" value="Mot de passe oublié">
-        </form>
-    </article>`;
-    
-    loginSection.innerHTML = loginHTML;
-    main.appendChild(loginSection);
-    
-    const loginBtn = document.querySelector("#btn-login")
-        .addEventListener("click", async (e)=> {
-            e.preventDefault();
-            const loginIDS = {
-            email: document.querySelector("#email-login").value,
-            password: document.querySelector("#mdp-login").value,
-        };
+    const token = await r.json();
 
-        const r = await fetch(`${BACKEND_URL}/users/login`, {
-            method : "POST",
-            headers : {
-                "Accept" : "application/json",
-                "Content-type" : "application/json"
-            },
-            body: JSON.stringify(loginIDS)
-        })
-
-        const token = await r.json();
-
-        if (r.ok === true) {
-            alert("Connexion réussie");
-            localStorage.setItem("tokenID", token.token);
-            generateEditionMode();
-        } else {
-            alert(`Erreur dans l’identifiant ou le mot de passe`);
-        }
-    });
-};
+    if (r.ok === true) {
+        alert("Connexion réussie");
+        localStorage.setItem("tokenID", token.token);
+        window.location.href = "../index.html";
+    } else {
+        alert(`Erreur dans l’identifiant ou le mot de passe`);
+    }
+});

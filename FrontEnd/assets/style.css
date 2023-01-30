@@ -46,6 +46,9 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+a {
+	all: unset;
+}
 /** end reset css**/
 body {
 	max-width: 1140px;
@@ -69,7 +72,8 @@ h1{
 	font-family: 'Syne';
 	font-size: 22px;
 	font-weight: 800;
-	color: #B1663C
+	color: #B1663C;
+	cursor: pointer;
 }
 
 h1 > span {
@@ -101,7 +105,7 @@ nav li img {
 	width: 50%;
 }
 
-nav li a:hover,li:hover,#login input[type="mdp-forgot"] {
+nav li a:hover,li:hover,.mdp-oubli:hover {
 	color: #B1663C;
 }
 
@@ -168,6 +172,8 @@ nav li a:hover,li:hover,#login input[type="mdp-forgot"] {
 	flex-direction: column;
 }
 
+
+
 #contact input, #login input,#form-ajout-photo input,#form-ajout-photo select {
 	height: 50px;
 	font-size: 1.2em;
@@ -186,7 +192,6 @@ nav li a:hover,li:hover,#login input[type="mdp-forgot"] {
 	color: #444444;
 	margin-bottom: 47px;
 	padding: 0 14px 0 14px;
-
 }
 
 #form-ajout-photo option {
@@ -204,19 +209,7 @@ nav li a:hover,li:hover,#login input[type="mdp-forgot"] {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
-
-}
-
-#btn-login {
+.form-btn-submit, .contact-submit-btn {
 	cursor: pointer;
 	font-family: 'Syne';
 	font-size: 14px;
@@ -234,7 +227,8 @@ input[type="submit"] {
 	border: none;
 }
 
-#login input[type="mdp-forgot"]{
+.mdp-oubli {
+	cursor: pointer;
 	font-family: 'Work Sans';
 	font-weight: 500;
 	font-size: 14px;
@@ -436,7 +430,7 @@ margin-top: -50px;
 	border: none;
 }
 
-#modale-btn-valid {
+.form-add-proj-btn, .not-filled {
 	width: 237px;
 	cursor: pointer;
 	font-family: 'Syne';
@@ -616,18 +610,3 @@ margin-top: -50px;
   
 	margin-bottom:30px;
   }
-
-
-/*
-
-<div id="miniature-1" class="miniature">
-        <figure id="modale-mini-fig-1" class="miniature-fig">
-            <img src="">
-            <i class="fa-solid fa-arrows-up-down-left-right"></i>
-            <i class="fa-solid fa-trash-can"></i>  
-        </figure>
-    <p>éditer</p>
-    </div>
-
-*/
-

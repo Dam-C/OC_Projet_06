@@ -1,81 +1,106 @@
-const main = document.querySelector("main");
+const BACKEND_URL = "http://localhost:5678/api"
 
-let projets = window.localStorage.getItem("projets");
-
-const categoriesAPI = await fetch("http://localhost:5678/api/categories");
+// const categoriesAPI = await (await fetch(BACKEND_URL + "/categories")).json();
+const categoriesAPI = await fetch(BACKEND_URL + "/categories");
 const categories = await categoriesAPI.json();
 
-export function genererProjets(){
-    
-    //creation section projets
-    const projetsSection = document.createElement("section");
-    projetsSection.id = "portfolio";
-    
-    const projetsHead = document.createElement("h2");
-    projetsHead.innerText = "Mes Projets";
+const projectsAPI = await fetch(BACKEND_URL + "/works");
+const projects = await projectsAPI.json();
 
-    //creation filtres projets    
-    const projetsFiltresDiv = document.createElement("div");
-    projetsFiltresDiv.id = "filtres-container"
+//Selecteur pour la zone dans laquelle le code va se générer
+const main = document.querySelector("main");
+
+
+
+//Creation de la zone filtres des projects
+export function generateProjectsHead() { // naming !!
+    //creation section projects
+    const projectsSection = document.createElement("section");
+    projectsSection.id = "portfolio";
+    
+    const projectsHead = document.createElement("h2");
+    projectsHead.innerText = "Mes projets";
+
+    //creation filtres projects    
+    const projectsFiltresDiv = document.createElement("div");
+    projectsFiltresDiv.id = "filtres-container"
     const filtresButtTous = document.createElement("button");
     filtresButtTous.id = "master-filter";
     filtresButtTous.classList.add("filtre-cat");
     filtresButtTous.innerText = "Tous";
     
-    function filtresCategories (categories) {
-        for (let i = 0; i < categories.length; i++) {
+    function displayBtnCategories () {
+        
+        categories.forEach(category => {
             const filtreCat = document.createElement("button");
-            filtreCat.id = `filtre-${categories[i].id}`;
+            filtreCat.id = `filtre-${category.id}`;
             filtreCat.classList.add("filtre-cat");
-            filtreCat.innerText = categories[i].name;
-            projetsFiltresDiv.appendChild(filtreCat);
-        };
+            filtreCat.innerText = category.name;
+            projectsFiltresDiv.appendChild(filtreCat);
+        });
     };
 
-//    const filtresButtObjets = document.createElement("button");
-//    filtresButtObjets.id = `filtre-${categories[0].id}`;
-//    filtresButtObjets.innerText = categories[0].name;
-//    const filtresButtAppart = document.createElement("button");
-//    filtresButtAppart.id = `filtre-${categories[1].id}`;
-//    filtresButtAppart.innerText = categories[1].name;
-//    const filtresButtHetR = document.createElement("button");
-//    filtresButtHetR.id = `filtre-${categories[2].id}`;
-//    filtresButtHetR.innerText = categories[2].name;
+    const projectsGallery = document.createElement("div");
+    projectsGallery.classList.add("gallery");
 
-    const projetsGallery = document.createElement("div");
-    projetsGallery.classList.add("gallery");
-
+    main.appendChild(projectsSection);
     
-    
-    //creation bloc projet
-    function genererTilesProjets(projets) {
-        
-        for (let i=0 ; i<projets.length; i++) { 
-        const projetTile = document.createElement("figure");
-        
-        const projetImage = document.createElement("img");
-        projetImage.src = projets[i].imageUrl;
-        projetImage.setAttribute("alt", projets[i].title);
-        projetImage.setAttribute("crossorigin", "anonymous");
+    projectsSection.appendChild(projectsHead);
+    projectsSection.appendChild(projectsFiltresDiv);
+    projectsSection.appendChild(projectsGallery);
 
-        const projetCaption = document.createElement("figcaption");
-        projetCaption.innerText = projets[i].title;
+    projectsFiltresDiv.appendChild(filtresButtTous);
+    displayBtnCategories(categories);
 
-        projetsGallery.appendChild(projetTile);
-        projetTile.appendChild(projetImage);
-        projetTile.appendChild(projetCaption);
-        };
-    };
 
-    main.appendChild(projetsSection);
-    projetsSection.appendChild(projetsHead);
-    projetsSection.appendChild(projetsFiltresDiv);
-    projetsFiltresDiv.appendChild(filtresButtTous);
-    filtresCategories(categories);
-//    projetsFiltresDiv.appendChild(filtresButtObjets);
-//    projetsFiltresDiv.appendChild(filtresButtAppart);
-//    projetsFiltresDiv.appendChild(filtresButtHetR);
-    projetsSection.appendChild(projetsGallery);
+    //génération des boutons de filtres
+    //@TODO : create a single function to handle filters
+    const masterFilter = document.querySelector("#master-filter");
 
-    genererTilesProjets(projets);
+    masterFilter.addEventListener("click", function (event) {
+        event.preventDefault();
+        document.querySelector(".gallery").innerHTML = "";
+        generateProjects(projects);
+    });
+
+    const filtreObj = document.querySelector("#filtre-1");
+    filtreObj.addEventListener("click", function () {
+        const projectsFiltres = projects.filter(function (project) {
+            return project.category.id == 1;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        generateProjects(projectsFiltres);
+    });
+
+    const filtreAppart = document.querySelector("#filtre-2");
+    filtreAppart.addEventListener("click", function () {
+        const projectsFiltres = projects.filter(project => project.category.id == 2);
+        document.querySelector(".gallery").innerHTML = "";
+        generateProjects(projectsFiltres);
+    });
+
+    const filtreHetR = document.querySelector("#filtre-3");
+    filtreHetR.addEventListener("click", function () {
+        const projectsFiltres = projects.filter(function (project) {
+            return project.category.id == 3;
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        generateProjects(projectsFiltres);
+    });
+};
+
+//Creation zone des projects
+export function generateProjects(projects) {
+
+    //creation bloc project 
+    projects.forEach(project => {
+
+        const projectsGallery = document.querySelector(".gallery");
+        const projectTile = document.createElement("figure");
+        projectTile.dataset.id = project.id;
+        projectTile.dataset.cat = project.categoryId;
+        projectTile.innerHTML = `<img src="${project.imageUrl}" alt="${project.title}" crossorigin="anonymous"></img><figcaption>${project.title}</figcaption>`;
+
+        projectsGallery.appendChild(projectTile);
+    });
 };

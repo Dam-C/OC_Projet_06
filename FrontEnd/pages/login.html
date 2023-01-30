@@ -9,15 +9,17 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="../assets/style.css">
+	<script src="https://kit.fontawesome.com/30699aa1e7.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <header>
-	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
+	<a href="../index.html"><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a>
 	<nav>
 		<ul>
-			<li><a href="../index.html">projets</a></li>
-			<li>contact</li>
-			<li><a href="./pages/login.html">login</a></li>
+			<li id="nav-projets"><a href="../index.html">projets</a></li>
+			<li id="nav-contact">contact</li>
+			<li id="nav-login"><a href="login.html">login</a></li>
 			<li><img src="../assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -30,10 +32,11 @@
 				<label for="email-login">E-mail</label>
 				<input type="email-login" name="email-login" id="email-login">
 				<label for="mdp-login">Mot de passe</label>
-				<input type="mdp-login" name="mdp-login" id="mdp-login">
-				<input type="submit" value="Se connecter">
-				<input type="mdp-forgot" value="Mot de passe oublié">
+				<input type="password" name="mdp-login" id="mdp-login">
+				<button type="submit" class="form-btn-submit" value="Se connecter">Se connecter</button>
 			</form>
+			<button type="button" class="mdp-oubli" value="Mot de passe oublié">Mot de passe oublié</button>
+
 		</article>
 	</section>
 	
@@ -47,5 +50,10 @@
 		</ul>
 	</nav>
 </footer>
+
+<script type="module" src="../assets/login.js"></script> 
+
+
+
 </body>
 </html>
