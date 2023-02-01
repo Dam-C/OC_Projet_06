@@ -6,12 +6,6 @@ const BACKEND_URL = "http://localhost:5678/api"
 const categoriesAPI = await fetch(BACKEND_URL + "/categories");
 const categories = await categoriesAPI.json();
 
-const projectsAPI = await fetch(BACKEND_URL + "/works");
-const projects = await projectsAPI.json();
-
-//Selecteur pour la zone dans laquelle le code va se générer
-const main = document.querySelector("main");
-
 // Genere la partie d'ajout de photo dans la modale
 export function modalAddProject () {
 
@@ -28,7 +22,7 @@ export function modalAddProject () {
                 </div>
                 <i class="fa-regular fa-image"></i>
                 <label for="upload-img-html" id="upload-img-btn">+ Ajouter photo</label>
-                <input type="file" id="upload-img-html" accept="image/*" required></input>
+                <input type="file" id="upload-img-html" name="photo" accept="image/*" required></input>
                 <span class="upload-img-subtxt">jpg, png : 4mo max</span>
             </div>            
             <label for="titre">Titre</label>
@@ -41,7 +35,7 @@ export function modalAddProject () {
                 <option value="${categories[2].id}">${categories[2].name}</option>
             </select>
             <div class="modale-separator"></div>
-            <button type="submit" id="modale-btn-valid" class="form-add-proj-btn not-filled" value="Valider">Valider</button>
+            <button id="modale-btn-add" class="main-btn btn-add-project unfilled">Valider</button>
         </form>`
     ;
 
@@ -57,10 +51,25 @@ export function modalAddProject () {
 
     document.getElementById("upload-img-html").addEventListener("change",showPreview);
 
+    console.log();
+    const data = {
+        photo : null,
+        titre : null,
+        categorie : null
+    };
+
     //Generation des données à envoyer à l'API
-    document.querySelector("#form-ajout-photo").addEventListener("submit", async (e)=>{
-        
-            e.preventDefault();
+    const  formulaire = document.querySelector("#form-ajout-photo");
+    formulaire.addEventListener("submit", async (e)=>{
+        e.preventDefault();
+        const inputs = Array.from(e.target.elements);
+        inputs.forEach(input => {
+            const value = input.value;
+            data[input.name]= value;
+            console.dir(input)
+        })
+        console.log(data);
+            
             const formData = new FormData();
             formData.append("image",document.querySelector("#upload-img-html").files[0]);
             formData.append("title",document.querySelector("#new-project-title").value);

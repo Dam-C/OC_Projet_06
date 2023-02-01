@@ -57,9 +57,8 @@ function generateFormContact(){
                 <input type="email" name="email" id="email">
                 <label for="message">Message</label>
                 <textarea name="message" id="message" cols="30" rows="10"></textarea>
-                <button type="submit" class="contact-submit-btn" value="Envoyer">
-            </form>
-        </section>`
+                <button type="submit" class="main-btn" value="Envoyer">Envoyer</button>
+            </form>`
     ;
     main.appendChild(contactSection);
 
@@ -85,8 +84,6 @@ export function generateMainPage () {
     generateProjectsHead();
     generateProjects(projects);
     generateFormContact();
-
-
 };
 
 generateMainPage();
