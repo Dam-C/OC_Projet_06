@@ -10,7 +10,8 @@ const projects = await projectsAPI.json();
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
 
-
+console.log(categories);
+console.log(projects);
 
 //Creation de la zone filtres des projects
 export function generateProjectsHead() { // naming !!
@@ -25,21 +26,10 @@ export function generateProjectsHead() { // naming !!
     const projectsFiltresDiv = document.createElement("div");
     projectsFiltresDiv.id = "filtres-container"
     const filtresButtTous = document.createElement("button");
-    filtresButtTous.id = "master-filter";
+    filtresButtTous.id = "0";
     filtresButtTous.classList.add("filtre-cat");
     filtresButtTous.innerText = "Tous";
     
-    function displayBtnCategories () {
-        
-        categories.forEach(category => {
-            const filtreCat = document.createElement("button");
-            filtreCat.id = `filtre-${category.id}`;
-            filtreCat.classList.add("filtre-cat");
-            filtreCat.innerText = category.name;
-            projectsFiltresDiv.appendChild(filtreCat);
-        });
-    };
-
     const projectsGallery = document.createElement("div");
     projectsGallery.classList.add("gallery");
 
@@ -50,48 +40,33 @@ export function generateProjectsHead() { // naming !!
     projectsSection.appendChild(projectsGallery);
 
     projectsFiltresDiv.appendChild(filtresButtTous);
-    displayBtnCategories(categories);
 
+    categories.forEach(category => {
+        const filtreCat = document.createElement("button");
+        filtreCat.id = category.id;
+        filtreCat.classList.add("filtre-cat");
+        filtreCat.innerText = category.name;
+        projectsFiltresDiv.appendChild(filtreCat);
+    });
 
     //génération des boutons de filtres
-    //@TODO : create a single function to handle filters
-    const masterFilter = document.querySelector("#master-filter");
 
-    masterFilter.addEventListener("click", function (event) {
-        event.preventDefault();
-        document.querySelector(".gallery").innerHTML = "";
-        generateProjects(projects);
-    });
+    const filters = document.querySelectorAll(".filtre-cat");
 
-    const filtreObj = document.querySelector("#filtre-1");
-    filtreObj.addEventListener("click", function () {
-        const projectsFiltres = projects.filter(function (project) {
-            return project.category.id == 1;
-        });
-        document.querySelector(".gallery").innerHTML = "";
-        generateProjects(projectsFiltres);
-    });
-
-    const filtreAppart = document.querySelector("#filtre-2");
-    filtreAppart.addEventListener("click", function () {
-        const projectsFiltres = projects.filter(project => project.category.id == 2);
-        document.querySelector(".gallery").innerHTML = "";
-        generateProjects(projectsFiltres);
-    });
-
-    const filtreHetR = document.querySelector("#filtre-3");
-    filtreHetR.addEventListener("click", function () {
-        const projectsFiltres = projects.filter(function (project) {
-            return project.category.id == 3;
-        });
-        document.querySelector(".gallery").innerHTML = "";
-        generateProjects(projectsFiltres);
-    });
+    filters.forEach(filterCat => {
+        filterCat.addEventListener("click", ()=> {
+            const filteredProjects = projects.filter(function (project) {
+                return project.category.id == filterCat.id
+            })
+            !!+filterCat.id ? generateProjects(filteredProjects) : generateProjects(projects);
+        })
+    })
 };
 
 //Creation zone des projects
 export function generateProjects(projects) {
 
+    document.querySelector(".gallery").innerHTML = "";
     //creation bloc project 
     projects.forEach(project => {
 
@@ -100,7 +75,6 @@ export function generateProjects(projects) {
         projectTile.dataset.id = project.id;
         projectTile.dataset.cat = project.categoryId;
         projectTile.innerHTML = `<img src="${project.imageUrl}" alt="${project.title}" crossorigin="anonymous"></img><figcaption>${project.title}</figcaption>`;
-
         projectsGallery.appendChild(projectTile);
     });
 };

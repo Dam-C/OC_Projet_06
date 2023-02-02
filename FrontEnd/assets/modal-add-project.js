@@ -51,7 +51,6 @@ export function modalAddProject () {
 
     document.getElementById("upload-img-html").addEventListener("change",showPreview);
 
-    console.log();
     const data = {
         photo : null,
         titre : null,
