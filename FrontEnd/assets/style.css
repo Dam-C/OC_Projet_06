@@ -258,6 +258,7 @@ footer nav ul {
 	text-align: center;
 	padding: 8px 10px 8px 10px;
 	border-radius: 60px ;
+	cursor: pointer;
 }
 
 .filtre-cat-selected {
@@ -291,6 +292,7 @@ footer nav ul {
 }
 
 #top-edit-mode button {
+	cursor: pointer;
 	border-radius: 20px;
 	color: #000;
 	background-color: #fff;
@@ -468,13 +470,25 @@ margin-top: -50px;
 	border: none;
 }
 
+.login-btn {
+	margin-top: 37px;
+}
+
+#modif-figure, #modif-intro {
+	cursor: pointer;
+}
+
 .btn-add-project {
 	width: 237px;
 }
 
+
+
 #form-ajout-photo:invalid .main-btn {
 	background-color: #A7A7A7;
 }
+
+
 
 .form-add-proj-btn, .not-filled {
 	width: 237px;
@@ -516,6 +530,8 @@ margin-top: -50px;
 	flex-direction: column;
 	align-items: center;
 	overflow: hidden;
+	border-radius: 3px;
+
 }
 
 .fa-image {
@@ -558,11 +574,13 @@ margin-top: -50px;
 	object-position: center;
 	height: 200px;
 	overflow: hidden;
-	;
+	border-radius: 3px;
 }
 
 #show-img-preview {
-	max-width: 170px;
+	min-width: 0px;
+	max-width: 420px;
+	max-height: 200px;
 }
 
 .form-input {
@@ -570,7 +588,6 @@ margin-top: -50px;
 	padding:20px;
 	background:#fff;
 	box-shadow: -3px -3px 7px rgba(94, 104, 121, 0.377),
-				3px 3px 7px rgba(94, 104, 121, 0.377);
   }
   .form-input input {
 	display:none;
@@ -584,7 +601,6 @@ margin-top: -50px;
 	line-height:50px;
 	text-align:center;
 	background:#1172c2;
-  
 	color:#fff;
 	font-size:15px;
 	font-family:"Open Sans",sans-serif;
@@ -592,11 +608,4 @@ margin-top: -50px;
 	font-weight:600;
 	border-radius:5px;
 	cursor:pointer;
-  }
-  
-  .form-input img {
-	width:100%;
-	display:none;
-  
-	margin-bottom:30px;
   }

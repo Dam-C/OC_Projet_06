@@ -38,7 +38,6 @@ function createImage(attr){ //Attr is an object with all attributes needed
     const img = document.createElement('img');
     img.src = attr.src
     img.id = attr.id;
-
     return img
 }
 
@@ -58,10 +57,8 @@ function generateFormContact(){
                 <label for="message">Message</label>
                 <textarea name="message" id="message" cols="30" rows="10"></textarea>
                 <button type="submit" class="main-btn" value="Envoyer">Envoyer</button>
-            </form>`
-    ;
+            </form>`;
     main.appendChild(contactSection);
-
 };
 
 //Bouttons du site

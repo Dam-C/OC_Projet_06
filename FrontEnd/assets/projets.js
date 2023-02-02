@@ -10,64 +10,44 @@ const projects = await projectsAPI.json();
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
 
-console.log(categories);
-console.log(projects);
-
 //Creation de la zone filtres des projects
 export function generateProjectsHead() { // naming !!
     //creation section projects
     const projectsSection = document.createElement("section");
     projectsSection.id = "portfolio";
-    
-    const projectsHead = document.createElement("h2");
-    projectsHead.innerText = "Mes projets";
-
-    //creation filtres projects    
-    const projectsFiltresDiv = document.createElement("div");
-    projectsFiltresDiv.id = "filtres-container"
-    const filtresButtTous = document.createElement("button");
-    filtresButtTous.id = "0";
-    filtresButtTous.classList.add("filtre-cat");
-    filtresButtTous.innerText = "Tous";
-    
-    const projectsGallery = document.createElement("div");
-    projectsGallery.classList.add("gallery");
+    projectsSection.innerHTML = `
+        <h2>Mes projets</h2>
+        <div id="filtres-container">
+            <button id="0" class="filtre-cat">Tous</button>
+        </div>
+        <div class="gallery"></div>
+        `;
 
     main.appendChild(projectsSection);
     
-    projectsSection.appendChild(projectsHead);
-    projectsSection.appendChild(projectsFiltresDiv);
-    projectsSection.appendChild(projectsGallery);
-
-    projectsFiltresDiv.appendChild(filtresButtTous);
-
     categories.forEach(category => {
         const filtreCat = document.createElement("button");
         filtreCat.id = category.id;
         filtreCat.classList.add("filtre-cat");
         filtreCat.innerText = category.name;
-        projectsFiltresDiv.appendChild(filtreCat);
+        document.querySelector("#filtres-container").appendChild(filtreCat);
     });
 
     //génération des boutons de filtres
-
     const filters = document.querySelectorAll(".filtre-cat");
 
     filters.forEach(filterCat => {
         filterCat.addEventListener("click", ()=> {
-            const filteredProjects = projects.filter(function (project) {
-                return project.category.id == filterCat.id
-            })
+            const filteredProjects = projects.filter((project)=> {return project.category.id == filterCat.id});
             !!+filterCat.id ? generateProjects(filteredProjects) : generateProjects(projects);
         })
     })
 };
 
-//Creation zone des projects
+//Creation des projects dans la gallerie
 export function generateProjects(projects) {
 
     document.querySelector(".gallery").innerHTML = "";
-    //creation bloc project 
     projects.forEach(project => {
 
         const projectsGallery = document.querySelector(".gallery");
