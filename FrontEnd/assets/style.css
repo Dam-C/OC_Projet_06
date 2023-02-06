@@ -50,8 +50,17 @@ a {
 	all: unset;
 }
 /** end reset css**/
+
 body {
 	max-width: 1140px;
+	margin:auto;
+	font-family: 'Work Sans' ;
+	font-size: 14px;
+	background-color: #FFFEF8;
+}
+
+main {
+	max-width: 936px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
@@ -118,8 +127,8 @@ nav li a:hover,li:hover,.mdp-oubli:hover {
 }
 #introduction img {
 	display: block;
-	margin: auto;
-	width: 80%;
+	margin-right: auto;
+	width: 90%;
 }
 
 #introduction article {
@@ -223,10 +232,20 @@ nav li a:hover,li:hover,.mdp-oubli:hover {
 	height: auto;
 }
 
-footer nav ul {
+footer {
+	position: absolute;
+	left: 0;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 2em;
+	background-color: #fff;
+}
+
+footer nav {
+	max-width: 1140px;
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: auto;
 }
 
 .login__container, .login__fields {
@@ -313,7 +332,7 @@ margin-right: 8px;
 } 
 
 #modif-figure {
-	margin: 19px 0 0 57px;
+	margin-top: 19px;
 }
 
 #modif-intro {

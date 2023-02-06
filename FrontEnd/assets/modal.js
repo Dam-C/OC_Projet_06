@@ -50,14 +50,14 @@ export function generateModalGallery () {
             document.querySelector(`#trash-${project.id}`)
                 .addEventListener("click", async (e)=> {
                     
-                    const r = await fetch(`${BACKEND_URL}/works/${project.id}`, {
+                    const response = await fetch(`${BACKEND_URL}/works/${project.id}`, {
                         method : "DELETE",
                         headers: {
                             Authorization:`Bearer ${localStorage.tokenID}`,
                             "accept": "application/json"
                         },
                     });
-                    if (r.ok === true) {
+                    if (response.ok) {
                         alert("Projet supprimé");
                     } else {
                         alert("Le projet n'a pas pu être supprimé");
@@ -83,6 +83,5 @@ export function generateModalGallery () {
     document.querySelector("#modale-window").addEventListener("click", (e)=> {
         e.stopPropagation();
         e.stopImmediatePropagation();
-        return false;
     })
 };

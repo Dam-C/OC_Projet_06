@@ -48,7 +48,6 @@ export function modalAddProject () {
             preview.style.display = "block";
         }
     }
-
     document.getElementById("upload-img-html").addEventListener("change",showPreview);
 
     const data = {
@@ -74,7 +73,7 @@ export function modalAddProject () {
             formData.append("title",document.querySelector("#new-project-title").value);
             formData.append("category",document.querySelector("#modale-add-category").value);
 
-            const r = await fetch(`${BACKEND_URL}/works`, {
+            const response = await fetch(`${BACKEND_URL}/works`, {
                 method : "POST",
                 body : formData,
                 headers: {
@@ -83,7 +82,7 @@ export function modalAddProject () {
                 }
             })
 
-            if (r.ok === true) {
+            if (response.ok) {
                 alert("projet ajouté avec succés");
                 generateEditionMode();
             } else {
