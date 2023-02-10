@@ -1,15 +1,15 @@
 const BACKEND_URL = "http://localhost:5678/api"
-   
+
+// Ecoute les évènements du formulaire, une fois soumis, ses données sont envoyées à l'API et si valides, un message indique que la connexion a réussi.
 document.querySelector(".login__fields")
     .addEventListener("submit", async (e)=> {
         e.preventDefault();
-        console.log("test")
         const loginIDS = {
         email: document.querySelector("#email-login").value,
         password: document.querySelector("#mdp-login").value,
     };
 
-    const r = await fetch(`${BACKEND_URL}/users/login`, {
+    const response = await fetch(`${BACKEND_URL}/users/login`, {
         method : "POST",
         headers : {
             "Accept" : "application/json",
@@ -18,7 +18,7 @@ document.querySelector(".login__fields")
         body: JSON.stringify(loginIDS)
     })
 
-    const token = await r.json();
+    const token = await response.json();
 
     if (r.ok === true) {
         alert("Connexion réussie");

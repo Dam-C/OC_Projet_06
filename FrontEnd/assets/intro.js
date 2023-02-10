@@ -1,25 +1,21 @@
 //Selecteur pour la zone dans laquelle le code va se générer
 const main = document.querySelector("main");
 
-
 //creation Partie introduction
-export function generateIntroProjects(){ //naming !! in camel case should be generateIntroProjects 
+export function generateIntroProjects(){ 
 
     //creation bloc intro
     const projectsIntroSection = document.createElement("section");
     projectsIntroSection.id = "introduction";
 
     const projectsIntroFigure = document.createElement("figure");
-    projectsIntroFigure.id = "intro-figure"
+    projectsIntroFigure.id = "intro-figure";
 
     const projectsIntroFigureImg = document.createElement("img");
     projectsIntroFigureImg.src = "./assets/images/sophie-bluel.png";
 
-    // refactor ?
-    // const img = createImage({src: "./assets/images/sophie-bluel.png", id: "idImage"})
-
     const projectsIntroArticle = document.createElement("article");
-    projectsIntroArticle.id = "intro-article"
+    projectsIntroArticle.id = "intro-article";
     const projectsIntroText = `
     <h2>Designer d'espace</h2>
     <p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>

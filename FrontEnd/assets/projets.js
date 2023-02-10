@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:5678/api"
+const BACKEND_URL = "http://localhost:5678/api";
 
 // const categoriesAPI = await (await fetch(BACKEND_URL + "/categories")).json();
 const categoriesAPI = await fetch(BACKEND_URL + "/categories");
@@ -11,7 +11,7 @@ const projects = await projectsAPI.json();
 const main = document.querySelector("main");
 
 //Creation de la zone filtres des projects
-export function generateProjectsHead() { // naming !!
+export function generateProjectsHead() {
     //creation section projects
     const projectsSection = document.createElement("section");
     projectsSection.id = "portfolio";
@@ -26,6 +26,7 @@ export function generateProjectsHead() { // naming !!
     main.appendChild(projectsSection);
     
     categories.forEach(category => {
+
         const filtreCat = document.createElement("button");
         filtreCat.id = category.id;
         filtreCat.classList.add("filtre-cat");
@@ -34,14 +35,15 @@ export function generateProjectsHead() { // naming !!
     });
 
     //génération des boutons de filtres
-    const filters = document.querySelectorAll(".filtre-cat");
+    const filtersBtns = document.querySelectorAll(".filtre-cat");
 
-    filters.forEach(filterCat => {
+    filtersBtns.forEach(filterCat => {
         filterCat.addEventListener("click", ()=> {
+
             const filteredProjects = projects.filter((project)=> {return project.category.id == filterCat.id});
             !!+filterCat.id ? generateProjects(filteredProjects) : generateProjects(projects);
-        })
-    })
+        });
+    });
 };
 
 //Creation des projects dans la gallerie

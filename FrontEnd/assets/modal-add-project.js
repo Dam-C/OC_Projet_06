@@ -69,7 +69,7 @@ export function modalAddProject () {
                 Authorization:`Bearer ${localStorage.tokenID}`,
                 "accept": "application/json"
             }
-        })
+        });
 
         if (response.ok) {
             alert("projet ajouté avec succés");

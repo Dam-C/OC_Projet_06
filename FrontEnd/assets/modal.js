@@ -1,18 +1,17 @@
 import { modalAddProject } from "./modal-add-project.js";
 
-const BACKEND_URL = "http://localhost:5678/api"
-
-// const categoriesAPI = await (await fetch(BACKEND_URL + "/categories")).json();
+const BACKEND_URL = "http://localhost:5678/api";
 
 const projectsAPI = await fetch(BACKEND_URL + "/works");
 const projects = await projectsAPI.json();
 
+// ancre pour la fenêtre modale
 const modalRoot = document.querySelector("#modal-root");
 
 export function callModal () {
     modalRoot.innerHTML = `<div id="modale-bg"></div>`;
     generateModalGallery();
-}
+};
 
 export function generateModalGallery () {
     document.querySelector(`#modale-bg`)
@@ -25,7 +24,6 @@ export function generateModalGallery () {
             <button id="modal-btn" class="main-btn">Ajouter une photo</button>
             <p id="modale-suppr">Supprimer la galerie</p>
         </div>`;
-
 
     //creation bloc project dans la modale
     function generateModalProjects(projects) {
@@ -77,11 +75,11 @@ export function generateModalGallery () {
     // Click sur le fond pour fermer la modal
     modalRoot.addEventListener("click",() => {
         document.querySelector("#modale-bg").remove();
-    })
+    });
 
     // Permet d'empecher la fermeture de la modal au clic
     document.querySelector("#modale-window").addEventListener("click", (e)=> {
         e.stopPropagation();
         e.stopImmediatePropagation();
-    })
+    });
 };

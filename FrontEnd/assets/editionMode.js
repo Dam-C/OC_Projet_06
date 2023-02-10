@@ -1,6 +1,5 @@
 import { callModal } from "./modal.js";
 
-
 export function generateEditionMode () {
 
     const body = document.querySelector("body");
@@ -49,5 +48,5 @@ export function generateEditionMode () {
         document.querySelector("#modif-portfolio").remove();
         document.querySelector("#top-edit-mode-container").remove();
         localStorage.clear();
-    })
+    });
 };

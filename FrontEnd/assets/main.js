@@ -1,29 +1,17 @@
+// Importation des fontionnalités de d'édition du site
 import { generateEditionMode } from "./editionMode.js";
 import { generateProjectsHead, generateProjects } from "./projets.js";
 import { generateIntroProjects } from "./intro.js";
 
 const BACKEND_URL = "http://localhost:5678/api"
 
-// const categoriesAPI = await (await fetch(BACKEND_URL + "/categories")).json();
-const categoriesAPI = await fetch(BACKEND_URL + "/categories");
-const categories = await categoriesAPI.json();
-
 const projectsAPI = await fetch(BACKEND_URL + "/works");
 const projects = await projectsAPI.json();
 
-//Selecteur pour la zone dans laquelle le code va se générer
+// Selectionne la zone HTML principale dans laquelle le code va se générer
 const main = document.querySelector("main");
 
-// let figure = document.createElement("figure"); // is it needed ?
-
-function createImage(attr){ //Attr is an object with all attributes needed
-    const img = document.createElement('img');
-    img.src = attr.src
-    img.id = attr.id;
-    return img
-}
-
-//Creation bloc formulaire de contact
+// Creation bloc formulaire de contact
 function generateFormContact(){
         
     //creation bloc contact        
@@ -43,8 +31,7 @@ function generateFormContact(){
     main.appendChild(contactSection);
 };
 
-//Bouttons du site
-
+// Bouttons du site
 document.querySelector("#nav-contact").addEventListener("click", ()=> {
     main.innerHTML = "";
     generateFormContact();
@@ -54,8 +41,6 @@ document.querySelector("#nav-projets").addEventListener("click",()=> {
     main.innerHTML = "";
     generateMainPage();
 });
-
-
 
 // Generation de la page principale
 export function generateMainPage () {
@@ -67,6 +52,7 @@ export function generateMainPage () {
 
 generateMainPage();
 
+// Permet de conserver les fonctionnalités d'édition à la fermeture du site tant que l'utilisateur ne s'est pas déconnecté avec le bouton "Logout"
 if (localStorage.tokenID) {
     generateEditionMode();
 }
