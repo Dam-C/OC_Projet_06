@@ -1,7 +1,4 @@
 const BACKEND_URL = "http://localhost:5678/api"
-
-//Selecteur pour la zone dans laquelle le code va se générer
-//const main = document.querySelector("main");
    
 document.querySelector(".login__fields")
     .addEventListener("submit", async (e)=> {

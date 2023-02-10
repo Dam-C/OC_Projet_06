@@ -1,7 +1,5 @@
 import { callModal } from "./modal.js";
 
-//Selecteur pour la zone dans laquelle le code va se générer
-//const main = document.querySelector("main");
 
 export function generateEditionMode () {
 

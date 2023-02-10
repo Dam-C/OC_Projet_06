@@ -50,45 +50,34 @@ export function modalAddProject () {
     }
     document.getElementById("upload-img-html").addEventListener("change",showPreview);
 
-    const data = {
-        photo : null,
-        titre : null,
-        categorie : null
-    };
-
     //Generation des données à envoyer à l'API
     const  formulaire = document.querySelector("#form-ajout-photo");
     formulaire.addEventListener("submit", async (e)=>{
         e.preventDefault();
-        const inputs = Array.from(e.target.elements);
-        inputs.forEach(input => {
-            const value = input.value;
-            data[input.name]= value;
-            console.dir(input)
-        })
-        console.log(data);
-            
-            const formData = new FormData();
-            formData.append("image",document.querySelector("#upload-img-html").files[0]);
-            formData.append("title",document.querySelector("#new-project-title").value);
-            formData.append("category",document.querySelector("#modale-add-category").value);
+        
+        const formData = new FormData();
+        formData.append("image",document.querySelector("#upload-img-html").files[0]);
+        formData.append("title",document.querySelector("#new-project-title").value);
+        formData.append("category",document.querySelector("#modale-add-category").value);
 
-            const response = await fetch(`${BACKEND_URL}/works`, {
-                method : "POST",
-                body : formData,
-                headers: {
-                    Authorization:`Bearer ${localStorage.tokenID}`,
-                    "accept": "application/json"
-                }
-            })
+        console.log(formData);
 
-            if (response.ok) {
-                alert("projet ajouté avec succés");
-                generateEditionMode();
-            } else {
-                alert("Le projet n'a pas pu être ajouté");
+        const response = await fetch(`${BACKEND_URL}/works`, {
+            method : "POST",
+            body : formData,
+            headers: {
+                Authorization:`Bearer ${localStorage.tokenID}`,
+                "accept": "application/json"
             }
-        });
+        })
+
+        if (response.ok) {
+            alert("projet ajouté avec succés");
+            generateEditionMode();
+        } else {
+            alert("Le projet n'a pas pu être ajouté");
+        }
+    });
 
     const modaleClose = () => document.querySelector("#modale-bg").remove();
 
